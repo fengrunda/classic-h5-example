@@ -1,0 +1,120 @@
+.bg(@start :#00ffff,@end :#9fffff){
+    background:-webkit-gradient(linear,0 0, 0 100%,from(@start),to(@end));
+    background:-moz-linear-gradient(top,@start ,@end);
+    filter:progid:DXImageTransform.Microsoft.gradient(startColorstr=@start ,
+    endColorstr=@end ,grandientType=0);
+}
+.transition (@prop: all, @time: 1s, @ease: linear) {
+    -webkit-transition: @prop @time @ease;
+    -moz-transition: @prop @time @ease;
+    -o-transition: @prop @time @ease;
+    -ms-transition: @prop @time @ease;
+    transition: @prop @time @ease;
+}
+
+.getImgSize(@imgUrl,@scale:1){
+    @imgW:unit(image-width(@imgUrl),px) * @scale;
+    @imgH:unit(image-height(@imgUrl),px) * @scale;
+}
+.bgImg(@imgUrl,@scale:1){
+    @url:"@{imgUrl}?scale=@{scale}";
+    @imgW:unit(image-width(@imgUrl),px) * @scale;
+    @imgH:unit(image-height(@imgUrl),px) * @scale;
+    background-image: url(@url);
+    background-repeat: no-repeat;
+    background-size: @imgW @imgH;
+    width: @imgW;
+    height: @imgH;
+}
+.bgSprite(h){
+    position: absolute;
+    left: 50%;
+    margin-left: -@imgW/2;
+}
+.bgSprite(v){
+    position: absolute;
+    top: 50%;
+    margin-top: -@imgH/2;
+}
+.bgSprite(hv){
+    position: absolute;
+    top: 50%;
+    margin-top: -@imgH/2;
+    left: 50%;
+    margin-left: -@imgW/2;
+}
+.origin(@x,@y) {
+    transform-origin: @x @y;
+}
+.rotate(@deg) {
+    transform: rotate(@deg);
+}
+.skew(@degX,@degY) {
+    transform: skew(@degX,@degY);
+}
+.translate(@x,@y) {
+    transform: translate(@x, @y);
+}
+.scale(@x,@y) {
+    transform: scale(@x, @y);
+}
+.matrix(@a,@b,@c,@d,@e,@f) {
+    transform: matrix(@a,@b,@c,@d,@e,@f);
+}
+.duration(@second){
+    animation-duration:@second;
+}
+.delay(@second){
+    animation-delay:@second;
+}
+
+.arrow-up(@borderWidth, @color) {
+    width:0;
+    height:0;
+    border-left:@borderWidth solid transparent;
+    border-right:@borderWidth solid transparent;
+    border-bottom:@borderWidth solid @color;
+}
+
+.arrow-down(@borderWidth, @color) {
+    width:0;
+    height:0;
+    border-left:@borderWidth solid transparent;
+    border-right:@borderWidth solid transparent;
+    border-top:@borderWidth solid @color;
+}
+
+.arrow-left(@borderWidth, @color) {
+    width:0;
+    height:0;
+    border-top:@borderWidth solid transparent;
+    border-bottom:@borderWidth solid transparent;
+    border-right:@borderWidth solid @color;
+}
+
+.arrow-right(@borderWidth, @color) {
+    width:0;
+    height:0;
+    border-top:@borderWidth solid transparent;
+    border-bottom: @borderWidth solid transparent;
+    border-left: @borderWidth solid @color;
+}
+.bgBorder(@url){
+    @imgUrl: @url;
+    @imgW: unit(image-width(@imgUrl),px);
+    @imgH: unit(image-height(@imgUrl),px);
+    background-image: url(@imgUrl);
+    background-position: 0 0;
+    background-size: @imgW @imgH;
+}
+.line-clamp(@lines, @line-height: 1.6em) {
+    text-overflow: ellipsis;
+    display: -webkit-box;
+    /*! autoprefixer: off */
+    -webkit-box-orient: vertical;
+    /* autoprefixer: on */
+    -webkit-line-clamp: @lines; // number of lines to show
+    overflow: hidden;
+    line-height: @line-height;
+    max-height: @line-height * @lines;
+}

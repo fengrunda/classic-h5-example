@@ -1,0 +1,87 @@
+* {
+  box-sizing: border-box;
+}
+// -webkit-transform-style:preserve-3d;或-webkit-backface-visibility:hidden;如何解决Chrome在应用transition时页面闪动的问题？
+#app,
+body,
+html {
+  position: relative;
+  margin: 0;
+  // height: 100%;
+  // transform: translate3d(0, 0, 0);
+}
+
+::-webkit-scrollbar {
+  // width: 0px;
+  display: none;
+}
+
+html {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  min-height: 100%;
+}
+
+body {
+  -webkit-touch-callout: none;
+  -webkit-overflow-scrolling: touch;
+  font: 14px "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
+  color: #333;
+  // font-size: 14px;
+  // transform: translate3d(0, 0, 0);
+  // -webkit-backface-visibility: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: stretch;
+  flex: 1 0 auto;
+  // height: 100%;
+  // .getImgSize("../images/bg_g.png",0.5);
+  // background-image: @c_bg_linear;
+  // background-repeat: repeat;
+  // background-size: @imgW @imgH;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
+  outline: none;
+  -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  background: none;
+  border: none;
+  -webkit-appearance: none;
+  font-size: 14px;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: stretch;
+  flex: 1 0 auto;
+  position: relative;
+  // max-width: 375px;
+  width: 100%;
+  min-height: 352px;
+  font-size: 14px;
+  // background-image: @c_bg_linear;
+  overflow: hidden;
+  // background: @c_bg_linear;
+  background-color: @c_bg;
+}
+
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity .2s ease;
+}
+/* .fade-leave-active in <2.1.8 */
+.fade-enter,
+.fade-leave-to {
+  opacity: 0;
+}
+.mu-snackbar-message {
+  word-break: break-all;
+}

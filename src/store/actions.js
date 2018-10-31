@@ -142,35 +142,42 @@ for (let i in apiActions) {
         data: params
       }
       axiosParams = Object.assign(axiosParams, options)
-      console.log(axiosParams)
+      // console.log(axiosParams)
       const showIndicator = ignoreIndicatorActionArr.indexOf(apiAction) === -1
+      let loading = null
       if (showIndicator) {
-        // TODO show loading
+        loading = router.app.$loading()
       }
       commit('SET_API_TOGGLE_LOADING', { apiAction })
-      return axios(axiosParams).then(response => {
-        if (showIndicator) {
-          // TODO hide loading
-        }
-        if (response.data.status === 200) { // 接口返回成功状态
-          commit('SET_API_TOGGLE_SUCCESS', { apiAction })
-          return Promise.resolve(response.data)
-        } else {
-          if (response.data.status === 402) {
-            const isIgnore = ignoreCheckLoginPathArr.find(n => router.app.$route.path.match(n) !== null)
-            if (!isIgnore) {
-              // TODO 跳转到登录页
+      return new Promise((resolve, reject) => {
+        axios(axiosParams).then(response => {
+          if (showIndicator) {
+            loading.close()
+          }
+          if (response.data.status === 200) { // 接口返回成功状态
+            commit('SET_API_TOGGLE_SUCCESS', { apiAction })
+            resolve(response.data)
+          } else {
+            if (response.data.status === 402) {
+              const isIgnore = ignoreCheckLoginPathArr.find(n => router.app.$route.path.match(n) !== null)
+              if (!isIgnore) {
+                // TODO 跳转到登录页
+              }
             }
+            commit('SET_API_TOGGLE_FAIL', { apiAction })
+            reject(response.data)
+          }
+        }).catch(error => {
+          console.log(error)
+          if (showIndicator) {
+            loading.close()
+          }
+          if (error.message.match('Network Error')) {
+            error.message = '网络不给力！'
           }
           commit('SET_API_TOGGLE_FAIL', { apiAction })
-          return Promise.reject(response.data)
-        }
-      }).catch(error => {
-        if (showIndicator) {
-          // TODO hide loading
-        }
-        commit('SET_API_TOGGLE_FAIL', { apiAction })
-        return Promise.reject(error)
+          reject(error)
+        })
       })
     }
   }

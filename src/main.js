@@ -2,6 +2,47 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router'
 import store from './store'
+import {
+  Alert,
+  Button,
+  Dialog,
+  Divider,
+  Grid,
+  Icon,
+  Progress,
+  Snackbar,
+  TextField,
+  theme
+} from 'muse-ui'
+import Loading from 'muse-ui-loading'
+import Toast from 'muse-ui-toast'
+import Helpers from 'muse-ui/lib/Helpers'
+import Message from 'muse-ui-message'
+// 组件
+Vue.use(Alert)
+Vue.use(Button)
+Vue.use(Dialog)
+Vue.use(Divider)
+Vue.use(Grid)
+Vue.use(Icon)
+Vue.use(Progress)
+Vue.use(Snackbar)
+Vue.use(TextField)
+// 插件
+Vue.use(Helpers)
+Vue.use(Loading)
+Vue.use(Toast)
+Vue.use(Message, { width: '75%' })
+theme.add('zizai', {
+  primary: '#41a3ff',
+  // secondary: '#ff4081',
+  success: '#44c288',
+  warning: '#edc65b',
+  info: '#60ace6',
+  error: '#ff2f47'
+}, 'light')
+
+theme.use('zizai')
 
 Vue.config.productionTip = false
 router.beforeEach((to, from, next) => {

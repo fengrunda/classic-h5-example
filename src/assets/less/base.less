@@ -82,6 +82,24 @@ textarea {
 .fade-leave-to {
   opacity: 0;
 }
-.mu-snackbar-message {
-  word-break: break-all;
+
+.mu-snackbar {
+  min-width: 375px;
+  flex-wrap: nowrap;
+  .mu-snackbar-message {
+    flex: 1 1 auto;
+    word-break: break-all;
+  }
+  .mu-snackbar-action {
+    flex: 0 0 auto;
+  }
+}
+.mu-loading-wrap {
+  .mu-circular-progress,.mu-circle-wrapper {
+    width: 48px !important;
+    height: 48px !important;
+  }
+  .mu-circle {
+    border-width: 2px !important;
+  }
 }

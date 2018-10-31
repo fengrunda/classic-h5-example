@@ -1,8 +1,8 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <div class="logo"></div>
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <div class="logo" @click="getAAA"></div>
+    <HelloWorld msg="Welcome to Your Vue.js App" />
     <div class="aaa"></div>
   </div>
 </template>
@@ -19,15 +19,21 @@ export default {
     }
   },
   methods: {
-
+    getAAA () {
+      this.$store.dispatch('getUserInfo').then(data => {
+        console.log(data)
+      }).catch(error => {
+        let msg = error.message || error
+        // console.log(error)
+        this.$toast.error(msg)
+      })
+    }
   },
   created () {
-    this.$store.dispatch('getUserInfo').then(data => {
-      console.log(data)
-    }).catch(error => {
-      // let msg = error.message || error
-      console.log(error)
-    })
+
+  },
+  mounted () {
+
   },
   components: {
     HelloWorld
@@ -36,6 +42,6 @@ export default {
 </script>
 <style lang="less" scoped>
 .logo {
-  .bgImg('../assets/logo.png',0.5);
+  .bgImg("../assets/logo.png", 0.5);
 }
 </style>

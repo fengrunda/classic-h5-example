@@ -3,7 +3,10 @@
     <img alt="Vue logo" src="../assets/logo.png">
     <div class="logo" @click="getAAA"></div>
     <HelloWorld msg="Welcome to Your Vue.js App" />
-    <div class="aaa"></div>
+    <div class="aaa">
+      <div class="border-line"></div>
+      <div class="border-line2"></div>
+    </div>
   </div>
 </template>
 
@@ -41,7 +44,36 @@ export default {
 }
 </script>
 <style lang="less" scoped>
+.home {
+  background-color: darkolivegreen;
+  // margin-bottom: 68px;
+  // margin-bottom: constant(safe-area-inset-bottom)
+  img {
+    width: 100%;
+  }
+}
 .logo {
   .bgImg("../assets/logo.png", 0.5);
+}
+.aaa {
+  height: 1000px;
+}
+.border-line {
+  // border: 1px solid #000;
+  // border-radius: 0 5px 5px 0;
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  .scale-1px(0,5,5,0);
+}
+.border-line2 {
+  // border: 1px solid #000;
+  border-radius: 0 5px 5px 0;
+  border: 1px solid #ddd;
+  width: 200px;
+  height: 200px;
+  margin: 20px auto;
+  // .scale-1px(0,5,5,0);
 }
 </style>

@@ -55,7 +55,7 @@
   if (!metaEl) {
     metaEl = doc.createElement('meta')
     metaEl.setAttribute('name', 'viewport')
-    metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no viewport-fit=cover')
+    metaEl.setAttribute('content', 'initial-scale=' + scale + ', maximum-scale=' + scale + ', minimum-scale=' + scale + ', user-scalable=no, viewport-fit=cover')
     if (docEl.firstElementChild) {
       docEl.firstElementChild.appendChild(metaEl)
     } else {

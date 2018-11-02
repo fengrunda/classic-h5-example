@@ -18,12 +18,12 @@ export default {
 
   },
   created () {
-    this.$toast.message({ time: 0, message: '灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊' })
+    // this.$toast.message({ time: 0, message: '灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊' })
     // const loading = this.$loading()
     // setTimeout(() => {
     //   loading.close()
     // }, 3000)
-    this.$confirm('Hello world ?', 'Confirm')
+    // this.$confirm('Hello world ?', 'Confirm')
   },
   components: {
   }
@@ -37,13 +37,18 @@ export default {
 @import "~muse-ui-message/dist/muse-ui-message.css";
 @import "./assets/less/base.less";
 @import "./assets/less/style.less";
-// #app {
+#app {
+  // padding-bottom: 34px;
+  padding-bottom: env(safe-area-inset-bottom);
+  padding-left: env(safe-area-inset-left);
+  padding-right: env(safe-area-inset-right);
 //   font-family: 'Avenir', Helvetica, Arial, sans-serif;
 //   -webkit-font-smoothing: antialiased;
 //   -moz-osx-font-smoothing: grayscale;
 //   text-align: center;
 //   color: #2c3e50;
-// }
+background-color:darkcyan;
+}
 #nav {
   padding: 30px;
   a {

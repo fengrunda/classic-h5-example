@@ -47,6 +47,10 @@ const actions = {
   dialogVisible ({ commit, dispatch, state }, { name, visible }) {
     commit('SET_DIALOG_VISIBLE', { name, visible })
   },
+  /**
+   * 监听滚动
+   * @param {*} param0
+   */
   watchScroll ({ commit, dispatch, state }) {
     window.onscroll = throttle((e) => {
       commit('SET_SCROLL', { x: window.scrollX, y: window.scrollY })
@@ -96,13 +100,51 @@ const actions = {
             commit('SET_API_TOGGLE_FAIL', { apiAction })
             reject(error)
           } else {
-            actions.setUserInfo({ commit, dispatch, state }, data)
-            commit('SET_USER_INFO', { userInfo: data })
+            commit('SET_USER_INFO', data)
             commit('SET_API_TOGGLE_SUCCESS', { apiAction })
             resolve(data)
           }
         }
         window.RFBridge.RFN_GetUserInfoWithCallbackFunctionName('__onGetUserInfoSuccess')
+      } catch (error) {
+        commit('SET_API_TOGGLE_FAIL', { apiAction })
+        reject(error)
+      }
+    })
+  },
+  /**
+   * 唤起app登录页面
+   * @param {*} param0
+   */
+  loginApp ({ commit, dispatch, state }) {
+    let apiAction = 'loginApp'
+    commit('SET_API_TOGGLE_LOADING', { apiAction })
+    return new Promise((resolve, reject) => {
+      try {
+        window.__onCheckLogin = function (error, data) {
+          if (error) {
+            commit('SET_API_TOGGLE_FAIL', { apiAction })
+            reject(error)
+          } else {
+            if (!data.accessToken) {
+              commit('SET_API_TOGGLE_FAIL', { apiAction })
+              reject(new Error('没有accessToken'))
+              return
+            }
+            commit('SET_USER_INFO', data)
+            commit('SET_API_TOGGLE_SUCCESS', { apiAction })
+            resolve(data)
+          }
+        }
+        if (state.browser.versions.android) {
+          // android 慢
+          let timer = setTimeout(function () {
+            clearTimeout(timer)
+            window.RFBridge.RFN_LoginWithCallbackFunctionName('__onCheckLogin')
+          }, 1000)
+        } else {
+          window.RFBridge.RFN_LoginWithCallbackFunctionName('__onCheckLogin')
+        }
       } catch (error) {
         commit('SET_API_TOGGLE_FAIL', { apiAction })
         reject(error)

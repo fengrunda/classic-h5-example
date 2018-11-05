@@ -90,7 +90,8 @@ router.beforeEach(async (to, from, next) => {
         const wxInfo = await store.dispatch('getWeChatConfigInfo', { url: window.location.href })
         const initWxShareParams = { debug: false, appId: wxInfo.appId, timestamp: wxInfo.appId, nonceStr: wxInfo.appId, signature: wxInfo.appId }
         await store.dispatch('initWxShare', initWxShareParams)
-        store.dispatch('changeWxShare')
+        const shareParams = { icon: '', title: '', desc: '', descTimeline: '', link: '' }
+        store.dispatch('changeWxShare', shareParams)
       } catch (e) {
         const msg = e.message || e
         router.app.$toast.error(msg)

@@ -27,6 +27,10 @@ const state = {
       toggle: new Toggle(),
       data: null
     },
+    loginApp: {
+      toggle: new Toggle(),
+      data: null
+    },
     initWxShare: {
       toggle: new Toggle(),
       data: null

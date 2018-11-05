@@ -18,6 +18,18 @@ const state = {
     onSdkReady: {
       toggle: new Toggle(),
       data: null
+    },
+    getQRcodeApp: {
+      toggle: new Toggle(),
+      data: null
+    },
+    getUserInfoApp: {
+      toggle: new Toggle(),
+      data: null
+    },
+    initWxShare: {
+      toggle: new Toggle(),
+      data: null
     }
   },
   sdk: {

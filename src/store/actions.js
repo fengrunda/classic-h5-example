@@ -3,8 +3,9 @@ import router from '../router'
 import { apiActions } from '../config/api'
 const ignoreIndicatorActionArr = [] // 不显示loading的接口名称
 const ignoreCheckLoginPathArr = [] // 不检查登录状态的页面 '/compere'
-// import router from '../router'
 const co = require('co')
+const $wx = window.wx
+
 const actions = {
   /**
    * 初始化接口状态标识
@@ -85,8 +86,8 @@ const actions = {
    * 获取用户信息
    * @param {*} param0
    */
-  getUserInfo ({ commit, dispatch, state }) {
-    let apiAction = 'getUserInfo'
+  getUserInfoApp ({ commit, dispatch, state }) {
+    let apiAction = 'getUserInfoApp'
     commit('SET_API_TOGGLE_LOADING', { apiAction })
     return new Promise((resolve, reject) => {
       try {
@@ -107,8 +108,12 @@ const actions = {
       }
     })
   },
-  getQRcode ({ commit, dispatch, state }) {
-    let apiAction = 'getQRcode'
+  /**
+   * 唤起app摄像头扫码
+   * @param {} param0
+   */
+  getQRcodeApp ({ commit, dispatch, state }) {
+    let apiAction = 'getQRcodeApp'
     commit('SET_API_TOGGLE_LOADING', { apiAction })
     return new Promise((resolve, reject) => {
       try {
@@ -128,6 +133,224 @@ const actions = {
         reject(error)
       }
     })
+  },
+  collectActivityApp ({ commit, dispatch, state }, { activityId, type }) {
+    // APP内收藏功能 第一个参数活动ID，第二个参数1表示社区的活动，2表示生活的活动
+    return new Promise((resolve, reject) => {
+      try {
+        if (window.RFBridge) {
+          window.RFBridge.RFN_enableFavorWithIdAndCategory(activityId, type)
+        } else {
+          let timer = setTimeout(function () {
+            clearTimeout(timer)
+            window.RFBridge.RFN_enableFavorWithIdAndCategory(activityId, type)
+          }, 1000)
+        }
+      } catch (error) {
+        reject(error)
+      }
+    })
+  },
+  /**
+   *  分享链接到社交网络，所有参数必须为字符串
+   *  @param title 分享的标题
+   *  @param desc 分享的描述
+   *  @param thumbnail 分享的缩略图URL
+   *  @param link 分享的链接
+   *  @param wechatFrdTitle 朋友圈分享的标题
+   *  @param callbackFunc 回调函数, callbackFunc(param1, param2, param3) 接收两个参数，param1:是否出错 error\null
+   *  param2:状态 'click'\'success'\'cancel' 点击，成功，取消
+   *  param3: 渠道 InApp\WeChatFrd\WeChatTimeline\Weibo\QQFrd\CopyLink
+   */
+  socialShareApp ({ commit, dispatch, state }, { title, desc, thumbnail, link, wechatFrdTitle, type, channel }) {
+    return new Promise((resolve, reject) => {
+      try {
+        window.__onShareApp = function (error, type, channel) {
+          if (error) {
+            reject(error)
+          } else {
+            // 数果，百度统计
+            window._hmt.push(['_trackEvent', 'app分享', type, channel])
+            resolve(type, channel)
+          }
+        }
+        if (window.RFBridge) {
+          window.RFBridge.RFN_SocialShareWithTitleDescThumbnailLinkWechatTitleCallbackFunctionName(title, desc, thumbnail, link, wechatFrdTitle, '__onShareApp')
+        } else {
+          let timer = setTimeout(function () {
+            clearTimeout(timer)
+            window.RFBridge.RFN_SocialShareWithTitleDescThumbnailLinkWechatTitleCallbackFunctionName(title, desc, thumbnail, link, wechatFrdTitle, '__onShareApp')
+          }, 1000)
+        }
+      } catch (error) {
+        reject(error)
+      }
+    })
+  },
+  /**
+   * 初始化微信分享
+   * @param {*} param0
+   * @param {*} param1
+   */
+  initWxShare ({ commit, dispatch, state }, { debug = false, appId, timestamp, nonceStr, signature } = {}) {
+    let apiAction = 'initWxShare'
+    commit('SET_API_TOGGLE_LOADING', { apiAction })
+    return new Promise((resolve, reject) => {
+      $wx.config({
+        debug,
+        appId,
+        timestamp,
+        nonceStr,
+        signature,
+        jsApiList: [
+          'checkJsApi',
+          'onMenuShareTimeline',
+          'onMenuShareAppMessage',
+          'onMenuShareQQ',
+          'onMenuShareWeibo',
+          'onMenuShareQZone',
+          'hideMenuItems',
+          'showMenuItems',
+          'hideAllNonBaseMenuItem',
+          'showAllNonBaseMenuItem',
+          'translateVoice',
+          'startRecord',
+          'stopRecord',
+          'onVoiceRecordEnd',
+          'playVoice',
+          'onVoicePlayEnd',
+          'pauseVoice',
+          'stopVoice',
+          'uploadVoice',
+          'downloadVoice',
+          'chooseImage',
+          'previewImage',
+          'uploadImage',
+          'downloadImage',
+          'getNetworkType',
+          'openLocation',
+          'getLocation',
+          'hideOptionMenu',
+          'showOptionMenu',
+          'closeWindow',
+          'scanQRCode',
+          'chooseWXPay',
+          'openProductSpecificView',
+          'addCard',
+          'chooseCard',
+          'openCard',
+          'updateAppMessageShareData',
+          'updateTimelineShareData'
+        ]
+      })
+      $wx.ready(() => {
+        dispatch('setSdkData', { isWxReady: true })
+        commit('SET_API_TOGGLE_SUCCESS', { apiAction })
+        resolve('wx ready')
+        // $wx.checkJsApi({
+        //   jsApiList: ['updateAppMessageShareData', 'updateTimelineShareData'], // 需要检测的JS接口列表，所有JS接口列表见附录2,
+        //   success: function (res) {
+        //     alert(JSON.stringify(res))
+        //   // 以键值对的形式返回，可用的api值true，不可用为false
+        //   // 如：{"checkResult":{"chooseImage":true},"errMsg":"checkJsApi:ok"}
+        //   }
+        // })
+      })
+    })
+  },
+  /**
+   * 更改微信分享内容
+   * @param {*} param0
+   * @param {*{ icon：分享小图, title：分享标题, desc：分享描述, desc_timeline：朋友圈分享描述, link：分享链接 }} param1
+   */
+  changeWxShare ({ commit, dispatch, state }, { icon, title, desc, descTimeline, link }) {
+    // return new Promise((resolve, reject) => {
+    let shareData = {
+      friendQQ: {
+        info: {
+          imgUrl: icon,
+          link: link,
+          title: title,
+          desc: desc
+        },
+        callback: function (res) {
+          alert('friendQQ:' + JSON.stringify(res))
+          window._hmt.push(['_trackEvent', '分享到朋友或QQ', 'success', 'weixin'])
+        }
+      },
+      TimelineQzone: {
+        info: {
+          imgUrl: icon,
+          link: link,
+          title: title
+        },
+        callback: (res) => {
+          alert('TimelineQzone:' + JSON.stringify(res))
+          window._hmt.push(['_trackEvent', '分享到朋友圈或QQ空间', 'success', 'weixin'])
+        }
+      },
+      Default: {
+        imgUrl: icon,
+        link: link,
+        title: title,
+        desc: desc,
+        success: function (res) {
+          // 统计代码
+          window._hmt.push(['_trackEvent', '微信分享', 'success', 'weixin'])
+        }
+      },
+      Timeline: {
+        imgUrl: icon,
+        link: link,
+        title: descTimeline,
+        success: function (res) {
+          // 统计代码
+          window.MtaH5.clickShare('wechat_moments')
+          window.MtaH5.clickStat('wechat_moments')
+        }
+      },
+      QQ: {
+        imgUrl: icon,
+        link: link,
+        title: title,
+        desc: desc,
+        success: function (res) {
+          // 统计代码
+          window.MtaH5.clickShare('qq')
+          window.MtaH5.clickStat('qq')
+        }
+      },
+      Weibo: {
+        imgUrl: icon,
+        link: link,
+        title: title,
+        desc: desc,
+        success: function (res) {
+          // 统计代码
+          window.MtaH5.clickShare('sina')
+          window.MtaH5.clickStat('sina')
+        }
+      },
+      QZone: {
+        imgUrl: icon,
+        link: link,
+        title: title,
+        desc: desc,
+        success: function (res) {
+          // 统计代码
+          window.MtaH5.clickShare('qzone')
+          window.MtaH5.clickStat('qzone')
+        }
+      }
+    }
+    $wx.onMenuShareAppMessage(shareData.Default)
+    $wx.onMenuShareTimeline(shareData.Timeline)
+    $wx.onMenuShareQQ(shareData.QQ)
+    $wx.onMenuShareWeibo(shareData.Weibo)
+    $wx.onMenuShareQZone(shareData.QZone)
+
+    $wx.updateAppMessageShareData(shareData.friendQQ.info, shareData.friendQQ.callback)
+    $wx.updateTimelineShareData(shareData.TimelineQzone.info, shareData.TimelineQzone.callback)
   }
 }
 // 将api中定义的apiActions制作成action

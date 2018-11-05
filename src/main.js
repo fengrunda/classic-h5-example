@@ -45,13 +45,60 @@ theme.add('zizai', {
 theme.use('zizai')
 
 Vue.config.productionTip = false
-router.beforeEach((to, from, next) => {
+
+let isFirstVisit = true
+router.beforeEach(async (to, from, next) => {
   // 统计代码
   if (to.path) {
     try {
       // eslint-disable-next-line no-undef
       _hmt.push(['_trackPageview', location.pathname + '#' + to.fullPath])
     } catch (e) { }
+  }
+  // 首次进入页面执行
+  if (isFirstVisit) {
+    isFirstVisit = false
+    // TODO 获取活动信息
+    // 判断是否微信
+    if (!store.state.browser.versions.weChat) {
+      try {
+        await store.dispatch('onSdkReady')
+        // app
+        await store.dispatch('getUserInfoApp') // accessToken 设置到store
+      } catch (e) {
+        // h5
+        console.log(e.message)
+      }
+    }
+    if (!store.state.sdk.isApp) {
+      // TODO 跨域获取token 并设置到store
+    } else {
+      // TODO 设置收藏
+      store.dispatch('collectActivityApp', { activityId: to.query.activityId, type: 1 })
+    }
+    // 获取用户信息
+    try {
+      await store.dispatch('getUserInfo', { accessToken: store.state.userInfo.accessToken })
+    } catch (e) {
+      // const msg = e.message || e
+      // router.app.$toast.error(msg)
+      console.log(e)
+    }
+    if (store.state.browser.versions.weChat) {
+      // 接入微信
+      try {
+        const wxInfo = await store.dispatch('getWeChatConfigInfo', { url: window.location.href })
+        const initWxShareParams = { debug: false, appId: wxInfo.appId, timestamp: wxInfo.appId, nonceStr: wxInfo.appId, signature: wxInfo.appId }
+        await store.dispatch('initWxShare', initWxShareParams)
+        store.dispatch('changeWxShare')
+      } catch (e) {
+        const msg = e.message || e
+        router.app.$toast.error(msg)
+      }
+    }
+    // TODO 根据信息跳转 next({ name: 'home', query: to.query })
+    next()
+    return
   }
   next()
 })

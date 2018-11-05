@@ -97,6 +97,7 @@ const actions = {
             reject(error)
           } else {
             actions.setUserInfo({ commit, dispatch, state }, data)
+            commit('SET_USER_INFO', { userInfo: data })
             commit('SET_API_TOGGLE_SUCCESS', { apiAction })
             resolve(data)
           }

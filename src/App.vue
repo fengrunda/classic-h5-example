@@ -1,5 +1,5 @@
 <template>
-  <div id="app">
+  <div id="app" @click="$event=>{}">
     <div id="nav">
       <router-link to="/">Home</router-link> |
       <router-link to="/about">About</router-link>
@@ -25,6 +25,14 @@ export default {
     // }, 3000)
     // this.$confirm('Hello world ?', 'Confirm')
   },
+  mounted () {
+    try {
+      var el = document.getElementById('static-loading')
+      el.parentNode.removeChild(el)
+    } catch (e) {
+      // console.error(e);
+    }
+  },
   components: {
   }
 }
@@ -42,12 +50,12 @@ export default {
   padding-bottom: env(safe-area-inset-bottom);
   padding-left: env(safe-area-inset-left);
   padding-right: env(safe-area-inset-right);
-//   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-//   -webkit-font-smoothing: antialiased;
-//   -moz-osx-font-smoothing: grayscale;
-//   text-align: center;
-//   color: #2c3e50;
-background-color:darkcyan;
+  //   font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  //   -webkit-font-smoothing: antialiased;
+  //   -moz-osx-font-smoothing: grayscale;
+  //   text-align: center;
+  //   color: #2c3e50;
+  background-color: #fff;
 }
 #nav {
   padding: 30px;

@@ -1,11 +1,16 @@
 import axios from 'axios'
 import router from '../router'
 import { apiActions } from '../config/api'
+import { CrossStorageClient } from '../cross'
 const ignoreIndicatorActionArr = [] // 不显示loading的接口名称
 const ignoreCheckLoginPathArr = [] // 不检查登录状态的页面 '/compere'
 const co = require('co')
 const $wx = window.wx
-
+const qs = require('qs')
+// axios解决后端接收不到post参数
+axios.defaults.transformRequest = [function (data) {
+  return qs.stringify(data)
+}]
 const actions = {
   /**
    * 初始化接口状态标识
@@ -83,6 +88,28 @@ const actions = {
         dispatch('setSdkData', { isApp: false })
         commit('SET_API_TOGGLE_FAIL', { apiAction })
         reject(reason)
+      })
+    })
+  },
+  connectToken ({ commit, dispatch, state }) {
+    let buildType = process.env.VUE_APP_BUILD_TYPE
+    let storage = null
+    if (buildType === 'development') {
+      storage = new CrossStorageClient('http://t.api.zizai.rfmember.net/universal-login')
+      // storage = new CrossStorageClient('http://192.168.197.57:7777/');
+    } else if (buildType === 'test') {
+      storage = new CrossStorageClient('http://t.api.zizai.rfmember.net/universal-login')
+    } else {
+      storage = new CrossStorageClient('http://api.zizai.thinkinpower.com/universal-login')
+    }
+    return new Promise((resolve, reject) => {
+      storage.onConnect().then(() => {
+        return storage.get('access_token')
+      }).then(res => {
+        commit('SET_USER_INFO', { accessToken: res })
+        resolve(res)
+      }).catch(err => {
+        reject(err)
       })
     })
   },
@@ -401,25 +428,27 @@ for (let i in apiActions) {
   let obj = {
     [i]: ({ commit, dispatch, state }, { restfulParams = {}, params = {}, options = {} } = {}) => {
       let apiAction = i
+      let userRequestData = !!['PUT', 'POST', 'PATCH'].find(method => apiActions[i].method.toUpperCase() === method)
       let axiosParams = {
         baseURL: '../../',
         method: apiActions[i].method,
         url: apiActions[i].url,
-        data: params
+        data: userRequestData ? params : null,
+        params: userRequestData ? null : params
       }
       axiosParams = Object.assign(axiosParams, options)
-      // console.log(axiosParams)
+      console.log(axiosParams)
       const showIndicator = ignoreIndicatorActionArr.indexOf(apiAction) === -1
       let loading = null
       if (showIndicator) {
         loading = router.app.$loading()
+        try { loading.instance.$el.parentElement._isLoading = false } catch (e) { }
       }
       commit('SET_API_TOGGLE_LOADING', { apiAction })
       return new Promise((resolve, reject) => {
         axios(axiosParams).then(response => {
-          if (showIndicator) {
-            loading.close()
-          }
+          console.log(response)
+          try { showIndicator && loading.close() } catch (e) { }
           if (response.data.status === 200) { // 接口返回成功状态
             commit('SET_API_TOGGLE_SUCCESS', { apiAction })
             resolve(response.data)
@@ -435,9 +464,7 @@ for (let i in apiActions) {
           }
         }).catch(error => {
           console.log(error)
-          if (showIndicator) {
-            loading.close()
-          }
+          try { showIndicator && loading.close() } catch (e) { }
           if (error.message.match('Network Error')) {
             error.message = '网络不给力！'
           }

@@ -23,7 +23,7 @@ export default {
   },
   methods: {
     getAAA () {
-      this.$store.dispatch('getUserInfo').then(data => {
+      this.$store.dispatch('getActivityInfo', { params: { activityId: this.$route.query.activityId } }).then(data => {
         console.log(data)
       }).catch(error => {
         let msg = error.message || error
@@ -33,10 +33,13 @@ export default {
     }
   },
   created () {
-
+    // console.log('created')
+    // this.getAAA()
   },
   mounted () {
-
+    // setTimeout(() => {
+    //   console.log('mounted', this.$loading())
+    // }, 1000)
   },
   components: {
     HelloWorld
@@ -65,7 +68,7 @@ export default {
   width: 200px;
   height: 200px;
   margin: 20px auto;
-  .scale-1px(0,5,5,0);
+  .scale-1px(0, 5, 5, 0);
 }
 .border-line2 {
   // border: 1px solid #000;

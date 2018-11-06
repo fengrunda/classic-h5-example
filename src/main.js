@@ -58,9 +58,18 @@ router.beforeEach(async (to, from, next) => {
   // 首次进入页面执行
   if (isFirstVisit) {
     isFirstVisit = false
-    // TODO 获取活动信息
+    // 获取活动信息
+    try {
+      await store.dispatch('getActivityInfo', { params: { activityId: to.query.activityId } })
+    } catch (e) {
+      // const msg = e.message || e
+      // router.app.$toast.error(msg)
+      console.log(e)
+    }
     // 判断是否微信
     if (!store.state.browser.versions.weChat) {
+      const loading = router.app.$loading()
+      try { loading.instance.$el.parentElement._isLoading = false } catch (e) { }
       try {
         await store.dispatch('onSdkReady')
         // app
@@ -69,11 +78,19 @@ router.beforeEach(async (to, from, next) => {
         // h5
         console.log(e.message)
       }
+      loading.close()
     }
     if (!store.state.sdk.isApp) {
-      // TODO 跨域获取token 并设置到store
+      // 跨域获取token 并设置到store
+      try {
+        await store.dispatch('connectToken')
+      } catch (e) {
+        // const msg = e.message || e
+        // router.app.$toast.error(msg)
+        console.log(e)
+      }
     } else {
-      // TODO 设置收藏
+      // 设置收藏
       store.dispatch('collectActivityApp', { activityId: to.query.activityId, type: 1 })
     }
     // 获取用户信息
@@ -98,6 +115,7 @@ router.beforeEach(async (to, from, next) => {
       }
     }
     // TODO 根据信息跳转 next({ name: 'home', query: to.query })
+    console.log('next')
     next()
     return
   }

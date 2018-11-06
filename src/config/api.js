@@ -6,5 +6,9 @@ export const apiActions = {
   getWeChatConfigInfo: { // 获取微信配置
     url: '/api/openstore/getJsConfig',
     method: 'POST'
+  },
+  getActivityInfo: { // 获取活动信息
+    url: '/api/community/getActivityInfo',
+    method: 'POST'
   }
 }

@@ -19,10 +19,10 @@ export default {
     state.api[apiAction].data = data
   },
   'SET_SDK_DATA' (state, obj) {
-    Object.assign(state.sdk, obj)
+    state.sdk = Object.assign({}, state.sdk, obj)
   },
   'SET_USER_INFO' (state, obj) {
-    Object.assign(state.userInfo, obj)
+    state.userInfo = Object.assign({}, state.userInfo, obj)
   },
   'SET_DIALOG_VISIBLE' (state, { name, visible }) {
     state.dialog[name] = visible
@@ -32,6 +32,6 @@ export default {
     state.scroll.y = y
   },
   'SET_URL_PARAMS' (state, obj) {
-    Object.assign(state.urlParams, obj)
+    state.urlParams = Object.assign({}, state.urlParams, obj)
   }
 }

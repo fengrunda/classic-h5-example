@@ -451,6 +451,7 @@ for (let i in apiActions) {
           try { showIndicator && loading.close() } catch (e) { }
           if (response.data.status === 200) { // 接口返回成功状态
             commit('SET_API_TOGGLE_SUCCESS', { apiAction })
+            commit('SET_API_DATA', { apiAction, data: response.data.data })
             resolve(response.data)
           } else {
             if (response.data.status === 402) {

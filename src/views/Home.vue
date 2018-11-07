@@ -1,9 +1,10 @@
 <template>
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
-    <div class="logo" @click="getAAA"></div>
+    <div class="logo" @click="getActivityInfo"></div>
     <HelloWorld msg="Welcome to Your Vue.js App" />
     <div class="aaa">
+      <span class="time">活动时间：{{$store.state.userInfo.startTime}}-{{$store.state.userInfo.endTime}}</span>
       <div class="border-line"></div>
       <div class="border-line2"></div>
     </div>
@@ -13,7 +14,7 @@
 <script>
 // @ is an alias to /src
 import HelloWorld from '@/components/HelloWorld.vue'
-
+// import { mapState } from 'vuex'
 export default {
   name: 'home',
   data () {
@@ -21,15 +22,20 @@ export default {
 
     }
   },
+  computed: {
+    // ...mapState(
+    //   [
+    //     // 映射 this.count 为 store.state.count
+    //     'userInfo',
+    //     'scroll'
+    //   ]
+    // )
+  },
   methods: {
-    getAAA () {
-      this.$store.dispatch('getActivityInfo', { params: { activityId: this.$route.query.activityId } }).then(data => {
-        console.log(data)
-      }).catch(error => {
-        let msg = error.message || error
-        // console.log(error)
-        this.$toast.error(msg)
-      })
+    async getActivityInfo () {
+      const activityData = await this.$store.dispatch('getActivityInfo', { params: { activityId: this.$route.query.activityId } })
+      this.$store.dispatch('setUserInfo', activityData.data)
+      // this.$forceUpdate()
     }
   },
   created () {

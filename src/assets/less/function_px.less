@@ -135,7 +135,7 @@
   }
   @media only screen and (-webkit-device-pixel-ratio: 2) {
     @dpr: 2;
-    &::after {
+    &::before {
       content: "";
       position: absolute;
       top: 0;
@@ -149,11 +149,12 @@
       height: 100% * @dpr;
       transform: scale(1 / @dpr);
       transform-origin: left top;
+      z-index: 0;
     }
   }
   @media only screen and (-webkit-device-pixel-ratio: 3) {
     @dpr: 3;
-    &::after {
+    &::before {
       content: "";
       position: absolute;
       top: 0;
@@ -167,6 +168,7 @@
       height: 100% * @dpr;
       transform: scale(1 / @dpr);
       transform-origin: left top;
+      z-index: 0;
     }
   }
 }

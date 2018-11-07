@@ -24,6 +24,7 @@ export default {
     //   loading.close()
     // }, 3000)
     // this.$confirm('Hello world ?', 'Confirm')
+    // this.$store.dispatch('watchScroll')
   },
   mounted () {
     try {

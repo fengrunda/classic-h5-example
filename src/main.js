@@ -104,8 +104,8 @@ router.beforeEach(async (to, from, next) => {
     if (store.state.browser.versions.weChat) {
       // 接入微信
       try {
-        const wxInfo = await store.dispatch('getWeChatConfigInfo', { url: window.location.href })
-        const initWxShareParams = { debug: false, appId: wxInfo.appId, timestamp: wxInfo.appId, nonceStr: wxInfo.appId, signature: wxInfo.appId }
+        const wxInfo = await store.dispatch('getWeChatConfigInfo', { params: { url: window.location.href } })
+        const initWxShareParams = { debug: false, appId: wxInfo.data.appId, timestamp: wxInfo.data.timestamp, nonceStr: wxInfo.data.nonceStr, signature: wxInfo.data.signature }
         await store.dispatch('initWxShare', initWxShareParams)
         const shareParams = { icon: '', title: '', desc: '', descTimeline: '', link: '' }
         store.dispatch('changeWxShare', shareParams)

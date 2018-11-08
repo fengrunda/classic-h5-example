@@ -106,8 +106,12 @@ const actions = {
       storage.onConnect().then(() => {
         return storage.get('access_token')
       }).then(res => {
-        commit('SET_USER_INFO', { accessToken: res })
-        resolve(res)
+        if (res) {
+          commit('SET_USER_INFO', { accessToken: res })
+          resolve(res)
+        } else {
+          reject(new Error('无accessToken'))
+        }
       }).catch(err => {
         reject(err)
       })

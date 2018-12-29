@@ -1,10 +1,11 @@
 <template>
   <div id="app" @click="$event=>{}">
     <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+      <router-link to="/home">Home</router-link>|
+      <router-link to="/about">About</router-link>|
+      <router-link to="/three">Three</router-link>
     </div>
-    <router-view />
+    <router-view/>
   </div>
 </template>
 <script>
@@ -18,13 +19,19 @@ export default {
 
   },
   created () {
-    // this.$toast.message({ time: 0, message: '灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊' })
+    // this.$toast.message({ time: 0, message: JSON.stringify(window.WeixinJSBridge) })
+    // this.$toast.message({ time: 0, message: '灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊灰色空间代发货是打飞机啊', position: 'top' })
     // const loading = this.$loading()
     // setTimeout(() => {
     //   loading.close()
     // }, 3000)
     // this.$confirm('Hello world ?', 'Confirm')
     // this.$store.dispatch('watchScroll')
+    // document.addEventListener('WeixinJSBridgeReady', function onBridgeReady () {
+    //   this.$toast.message({ time: 0, message: JSON.stringify(window.WeixinJSBridge) })
+    //   window.WeixinJSBridge.call('hideToolbar')
+    //   window.WeixinJSBridge.call('hideOptionMenu')
+    // })
   },
   mounted () {
     try {

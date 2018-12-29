@@ -2,12 +2,13 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png">
     <div class="logo" @click="getActivityInfo"></div>
-    <HelloWorld msg="Welcome to Your Vue.js App" />
+    <HelloWorld msg="Welcome to Your Vue.js App"/>
     <div class="aaa">
       <span class="time">活动时间：{{$store.state.userInfo.startTime}}-{{$store.state.userInfo.endTime}}</span>
       <div class="border-line"></div>
       <div class="border-line2"></div>
     </div>
+    <input type="text" @blur="handleInputBlur" @focus="handleInputFocus">
   </div>
 </template>
 
@@ -19,7 +20,7 @@ export default {
   name: 'home',
   data () {
     return {
-
+      inputTargetDOMRect: {}
     }
   },
   computed: {
@@ -36,6 +37,14 @@ export default {
       const activityData = await this.$store.dispatch('getActivityInfo', { params: { activityId: this.$route.query.activityId } })
       this.$store.dispatch('setUserInfo', activityData.data)
       // this.$forceUpdate()
+    },
+    handleInputBlur (e) {
+      window.scrollTo(0, window.scrollY + this.inputTargetDOMRect.y)
+      this.inputTargetDOMRect = {}
+    },
+    handleInputFocus (e) {
+      console.log(e)
+      this.inputTargetDOMRect = e.target.getBoundingClientRect()
     }
   },
   created () {

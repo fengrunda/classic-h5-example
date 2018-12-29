@@ -3,8 +3,8 @@ export const apiActions = {
     url: '/api/community/getMyUserInfoForActivity',
     method: 'POST'
   },
-  getWeChatConfigInfo: { // 获取微信配置
-    url: '/api/openstore/getJsConfig',
+  getWeChatInfo: { // 获取微信配置
+    url: '/api/community/weixin/getWXJsConfig',
     method: 'POST'
   },
   getActivityInfo: { // 获取活动信息

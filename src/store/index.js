@@ -60,7 +60,8 @@ const state = {
       }
     }()),
     language: (navigator.browserLanguage || navigator.language).toLowerCase()
-  }
+  },
+  connectTokenFail: false
 }
 for (let i in apiActions) {
   let obj = {

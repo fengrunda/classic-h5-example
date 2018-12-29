@@ -129,46 +129,35 @@
   position: relative;
   border-width: 0;
   border-radius: unit(@radius1, px) unit(@radius2, px) unit(@radius3, px) unit(@radius4, px);
+  .before(@dpr) {
+    &::before {
+      content: "";
+      pointer-events: none;
+      position: absolute;
+      top: 0;
+      left: 0;
+      border-style: inherit;
+      border-color: inherit;
+      border-width: 1px;
+      border-radius: unit(@radius1 * @dpr, px) unit(@radius2 * @dpr, px) unit(@radius3 * @dpr, px) unit(@radius4 * @dpr, px);
+      box-sizing: border-box;
+      width: 100% * @dpr;
+      height: 100% * @dpr;
+      transform: scale(1 / @dpr);
+      transform-origin: left top;
+      z-index: 0;
+    }
+  }
   @media only screen and (-webkit-device-pixel-ratio: 1) {
     @dpr: 1;
     border-width: 1px;
   }
   @media only screen and (-webkit-device-pixel-ratio: 2) {
     @dpr: 2;
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-style: inherit;
-      border-color: inherit;
-      border-width: 1px;
-      border-radius: unit(@radius1 * @dpr, px) unit(@radius2 * @dpr, px) unit(@radius3 * @dpr, px) unit(@radius4 * @dpr, px);
-      box-sizing: border-box;
-      width: 100% * @dpr;
-      height: 100% * @dpr;
-      transform: scale(1 / @dpr);
-      transform-origin: left top;
-      z-index: 0;
-    }
+    .before(@dpr);
   }
   @media only screen and (-webkit-device-pixel-ratio: 3) {
     @dpr: 3;
-    &::before {
-      content: "";
-      position: absolute;
-      top: 0;
-      left: 0;
-      border-style: inherit;
-      border-color: inherit;
-      border-width: 1px;
-      border-radius: unit(@radius1 * @dpr, px) unit(@radius2 * @dpr, px) unit(@radius3 * @dpr, px) unit(@radius4 * @dpr, px);
-      box-sizing: border-box;
-      width: 100% * @dpr;
-      height: 100% * @dpr;
-      transform: scale(1 / @dpr);
-      transform-origin: left top;
-      z-index: 0;
-    }
+    .before(@dpr);
   }
 }

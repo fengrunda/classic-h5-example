@@ -11,7 +11,9 @@ module.exports = {
   css: {
     loaderOptions: {
       postcss: {
+        // 配置了这里就不需要在package.json里配置，这里优先级最高
         plugins: [
+          require('autoprefixer')({ }),
           // require('postcss-px2rem')({ remUnit: 37.5 })
           require('postcss-px-to-viewport')({
             viewportWidth: 375, // 视窗的宽度，对应的是我们设计稿的宽度，一般是750

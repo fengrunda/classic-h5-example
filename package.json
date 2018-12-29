@@ -4,20 +4,23 @@
   "private": true,
   "scripts": {
     "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
-    "build-test": "vue-cli-service build --mode test",
+    "build": "vue-cli-service build --modern",
+    "build-test": "vue-cli-service build --mode test --modern",
     "lint": "vue-cli-service lint",
     "prod": "node browser-sync.config.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "exif-js": "^2.3.0",
     "js-cookie": "^2.2.0",
+    "latest-createjs": "^1.0.24",
     "material-design-icons": "^3.0.1",
     "muse-ui": "^3.0.1",
     "muse-ui-loading": "^0.2.0",
     "muse-ui-message": "^0.2.1",
     "muse-ui-progress": "^0.1.0",
     "muse-ui-toast": "^0.3.0",
+    "three": "^0.98.0",
     "vue": "^2.5.17",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -61,7 +64,8 @@
     "> 1%",
     "last 2 versions",
     "not ie <= 8",
-    "ios >= 8"
+    "ios >= 7",
+    "android >= 4.0"
   ],
   "gitHooks": {
     "pre-commit": "lint-staged"

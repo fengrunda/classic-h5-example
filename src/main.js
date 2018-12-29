@@ -59,17 +59,17 @@ router.beforeEach(async (to, from, next) => {
   if (isFirstVisit) {
     isFirstVisit = false
     // 获取活动信息
-    try {
-      await store.dispatch('getActivityInfo', { params: { activityId: to.query.activityId } })
-    } catch (e) {
-      // const msg = e.message || e
-      // router.app.$toast.error(msg)
-      console.log(e)
-    }
+    // try {
+    //   await store.dispatch('getActivityInfo', { params: { activityId: to.query.activityId } })
+    // } catch (e) {
+    //   // const msg = e.message || e
+    //   // router.app.$toast.error(msg)
+    //   console.log(e)
+    // }
     // 判断是否微信
+    const loading = router.app.$loading()
+    try { loading.instance.$el.parentElement._isLoading = false } catch (e) { }
     if (!store.state.browser.versions.weChat) {
-      const loading = router.app.$loading()
-      try { loading.instance.$el.parentElement._isLoading = false } catch (e) { }
       try {
         await store.dispatch('onSdkReady')
         // app
@@ -78,7 +78,6 @@ router.beforeEach(async (to, from, next) => {
         // h5
         console.log(e.message)
       }
-      loading.close()
     }
     if (!store.state.sdk.isApp) {
       // 跨域获取token 并设置到store
@@ -97,6 +96,7 @@ router.beforeEach(async (to, from, next) => {
     try {
       await store.dispatch('getUserInfo', { accessToken: store.state.userInfo.accessToken })
     } catch (e) {
+      try { await store.dispatch('setAccessToken', '') } catch (e) { console.log(e) }
       // const msg = e.message || e
       // router.app.$toast.error(msg)
       console.log(e)
@@ -104,7 +104,7 @@ router.beforeEach(async (to, from, next) => {
     if (store.state.browser.versions.weChat) {
       // 接入微信
       try {
-        const wxInfo = await store.dispatch('getWeChatConfigInfo', { params: { url: window.location.href } })
+        const wxInfo = await store.dispatch('getWeChatInfo', { params: { url: window.location.href } })
         const initWxShareParams = { debug: false, appId: wxInfo.data.appId, timestamp: wxInfo.data.timestamp, nonceStr: wxInfo.data.nonceStr, signature: wxInfo.data.signature }
         await store.dispatch('initWxShare', initWxShareParams)
         const shareParams = { icon: '', title: '', desc: '', descTimeline: '', link: '' }
@@ -117,7 +117,7 @@ router.beforeEach(async (to, from, next) => {
     // TODO 根据信息跳转 next({ name: 'home', query: to.query })
     console.log('next')
     next()
-    return
+    loading.close()
   }
   next()
 })
@@ -128,7 +128,20 @@ router.afterEach((to, from) => {
   // 主动派发hashchange
   window.dispatchEvent(evt)
 })
-
+const DOMRectArr = []
+Vue.prototype.$handleInputFocus = e => {
+  DOMRectArr.push(e.target.getBoundingClientRect())
+}
+Vue.prototype.$handleInputBlur = e => {
+  DOMRectArr.shift()
+  const timer = setTimeout(() => {
+    clearTimeout(timer)
+    // window.scrollTo(0, window.scrollY + DOMRectArr[DOMRectArr.length-1].y)
+    if (DOMRectArr.length === 0) {
+      window.scrollTo(0, 1)
+    }
+  }, 0)
+}
 new Vue({
   router,
   store,

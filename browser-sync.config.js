@@ -56,11 +56,9 @@ const option = {
     baseDir: path.resolve(__dirname, './dist/'),
     middleware: [
       function (req, res, next) {
-        // console.log(req.url)
-        // if (config.build.assetsPublicPath !== '/') {
-        //   req.url = req.url.replace(config.build.assetsPublicPath, '/')
-        // }
-        // console.log(req.url)
+        if (config.baseUrl !== '/') {
+          req.url = req.url.replace(config.baseUrl, '/')
+        }
         next()
       }
     ]

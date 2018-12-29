@@ -91,30 +91,60 @@ const actions = {
       })
     })
   },
-  connectToken ({ commit, dispatch, state }) {
-    let buildType = process.env.VUE_APP_BUILD_TYPE
-    let storage = null
-    if (buildType === 'development') {
-      storage = new CrossStorageClient('http://t.api.zizai.rfmember.net/universal-login')
-      // storage = new CrossStorageClient('http://192.168.197.57:7777/');
-    } else if (buildType === 'test') {
-      storage = new CrossStorageClient('http://t.api.zizai.rfmember.net/universal-login')
-    } else {
-      storage = new CrossStorageClient('http://api.zizai.thinkinpower.com/universal-login')
-    }
+  connectToken ({ dispatch, commit, state }) {
+    console.log('GET_ACCESS_TOKEN')
     return new Promise((resolve, reject) => {
+      const URL = getConnectUrl()
+      // console.log(URL)
+      let storage = new CrossStorageClient(URL)
       storage.onConnect().then(() => {
         return storage.get('access_token')
       }).then(res => {
-        if (res) {
-          commit('SET_USER_INFO', { accessToken: res })
-          resolve(res)
-        } else {
-          reject(new Error('无accessToken'))
-        }
+        commit('SET_USER_INFO', { accessToken: res })
+        resolve(res)
       }).catch(err => {
+        commit('CONNECT_TOKEN_FAIL')
         reject(err)
       })
+    })
+  },
+  setAccessToken ({ dispatch, commit, state }, token) {
+    return new Promise((resolve, reject) => {
+      const URL = getConnectUrl()
+      let storage = new CrossStorageClient(URL)
+      storage.onConnect()
+        .then(() => {
+          return storage.set('access_token', token)
+        }).then(res => {
+          resolve(res)
+        }).catch(err => {
+          commit('CONNECT_TOKEN_FAIL')
+          reject(err)
+        })
+    })
+  },
+  gotoLogin ({ dispatch, commit, state }, redirectUrl = location.href) {
+    const URL = getConnectUrl()
+    let params = {}
+    if (redirectUrl) {
+      params.redirect_url = redirectUrl
+    }
+    if (state.connectTokenFail) {
+      params.type = 'params'
+      const redirect = redirectUrl || location.href
+      params.redirect_url = redirect
+    }
+    if (params.redirect_url) {
+      params.redirect_url = encodeURIComponent(deleteQueryFromUrlHash(params.redirect_url, 'access_token'))
+    }
+    const paramsArr = Object.keys(params).map(key => `${key}=${params[key]}`)
+    window.location.href = `${URL}?${paramsArr.join('&')}`
+  },
+  logout ({ dispatch, commit, state }) {
+    return new Promise(async (resolve, reject) => {
+      try { await dispatch('setAccessToken', '') } catch (e) { console.log(e) }
+      dispatch('gotoLogin')
+      resolve()
     })
   },
   /**
@@ -314,7 +344,8 @@ const actions = {
           'chooseCard',
           'openCard',
           'updateAppMessageShareData',
-          'updateTimelineShareData'
+          'updateTimelineShareData',
+          'getLocalImgData'
         ]
       })
       $wx.ready(() => {
@@ -462,6 +493,7 @@ for (let i in apiActions) {
               const isIgnore = ignoreCheckLoginPathArr.find(n => router.app.$route.path.match(n) !== null)
               if (!isIgnore) {
                 // TODO 跳转到登录页
+                dispatch('gotoLogin')
               }
             }
             commit('SET_API_TOGGLE_FAIL', { apiAction })
@@ -531,4 +563,47 @@ const throttle = function (func, wait, options) {
     }
     return result
   }
+}
+// const GetRequest = () => {
+//   var url = location.search // 获取url中"?"符后的字串
+//   var theRequest = {}
+//   if (url.indexOf('?') !== -1) {
+//     var str = url.substr(1)
+//     var strs = str.split('&')
+//     for (var i = 0; i < strs.length; i++) {
+//       theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1])
+//     }
+//   }
+//   return theRequest
+// }
+const getConnectUrl = () => {
+  let buildType = process.env.VUE_APP_BUILD_TYPE
+  const protocol = window.__wxjs_environment === 'miniprogram' ? 'https:' : 'http:'
+  if (buildType === 'development') {
+    // return 'http://192.168.198.179:7777';
+    return protocol + '//weixin.test.rfmember.net/zizai/universal-login/'
+    // return 'http://t.api.zizai.rfmember.net/universal-login';
+  } else if (buildType === 'test') {
+    // return 'http://t.api.zizai.rfmember.net/universal-login';
+    return protocol + '//weixin.test.rfmember.net/zizai/universal-login/'
+  } else {
+    return protocol + '//api.guanjia.thinkinpower.com/zizai/universal-login/'
+  }
+}
+/**
+ * 删除给定的url的hash中的某个参数
+ * @param {*} url
+ */
+const deleteQueryFromUrlHash = (url, queryName) => {
+  let urlObj = {}
+  try {
+    urlObj = new window.URL(url)
+    if (urlObj.hash.indexOf('?') !== -1) {
+      const hashArr = urlObj.hash.split('?')
+      const queryArr = hashArr[1].split('&')
+      const queryArrNew = queryArr.filter(query => !query.match(queryName))
+      urlObj.hash = hashArr[0] + '?' + queryArrNew.join('&')
+    }
+  } catch (e) { }
+  return urlObj.href || url
 }

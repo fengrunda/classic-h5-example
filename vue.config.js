@@ -2,6 +2,7 @@ const path = require('path')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 module.exports = {
   lintOnSave: false,
+  // baseUrl: process.env.VUE_APP_BUILD_TYPE === 'development' ? '/' : (process.env.VUE_APP_BUILD_TYPE === 'test' ? '/zizai/universal-login/' : '/universal-login/'),  // 根据不同环境配置不同的baseUrl
   baseUrl: './',
   outputDir: undefined,
   assetsDir: undefined,
@@ -13,7 +14,7 @@ module.exports = {
       postcss: {
         // 配置了这里就不需要在package.json里配置，这里优先级最高
         plugins: [
-          require('autoprefixer')({ }),
+          require('autoprefixer')({}),
           // require('postcss-px2rem')({ remUnit: 37.5 })
           require('postcss-px-to-viewport')({
             viewportWidth: 375, // 视窗的宽度，对应的是我们设计稿的宽度，一般是750
@@ -55,6 +56,8 @@ module.exports = {
     }
   },
   chainWebpack: config => {
+    // 移除 prefetch 插件
+    config.plugins.delete('prefetch')
     // 自动化导入全局less方法和变量
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
     types.forEach(type => addStyleResource(config.module.rule('less').oneOf(type)))
@@ -65,8 +68,8 @@ function addStyleResource (rule) {
     .loader('style-resources-loader')
     .options({
       patterns: [
-        path.resolve(__dirname, 'src/assets/less/function_px.less'),
-        path.resolve(__dirname, 'src/assets/less/variable.less')
+        path.resolve(__dirname, 'src/assets/less/lib-base.less'),
+        path.resolve(__dirname, 'src/assets/less/lib-mixins.less')
       ]
     })
 }

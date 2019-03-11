@@ -1,3 +1,91 @@
+.float (@float){
+	float:			@float;
+}
+.float (@float, @important){
+	float:			@float !important;
+}
+.clear (@clear){
+	clear:			@clear;
+}
+
+.display (@display){
+	display:		@display;
+}
+.display (@display, @important){
+	display:		@display !important;
+}
+
+.visibility (@v){
+	visibility:		@v;
+}
+.visibility (@v, @important){
+	visibility:		@v !important;
+}
+
+.overflow (@o){
+	overflow:		@o;
+}
+.overflow (@o, @important){
+	overflow:		@o !important;
+}
+
+.position(@p){
+	position:		@p;
+}
+.position(@p, @important){
+	position:		@p !important;
+}
+
+.box-sizing (@b){
+	box-sizing:		@b;
+}
+.box-sizing (@b, @important){
+	box-sizing:		@b !important;
+}
+
+.align (@a){
+	text-align:		@a;
+}
+.align (@a, @important){
+	text-align:		@a !important;
+}
+
+.vertical-align (@v){
+	vertical-align:	@v;
+}
+.vertical-align (@v, @important){
+	vertical-align:	@v !important;
+}
+
+.cursor (@c){
+	cursor:			@c;
+}
+.cursor (@c, @important){
+	cursor:			@c !important;
+}
+
+.columns (@count){
+			column-count:	@count;
+		-moz-column-count:	@count;
+	-webkit-column-count:	@count;
+}
+
+.coloredBox (@color){
+	border-color:	@color;
+
+	background:		fade(@color,30%);
+}
+.coloredBox (@borderColor, @backgroundColor){
+	border-color:	@borderColor;
+
+	background:		@backgroundColor;
+}
+
+.square (@size){
+	width:			@size;
+	height:			@size;
+}
+
 .bg(@start:#00ffff, @end :#9fffff) {
   background: -webkit-gradient(linear,0 0, 0 100%,from(@start),to(@end));
   background: -moz-linear-gradient(top,@start ,@end);

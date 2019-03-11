@@ -23,7 +23,7 @@ export default new Router({
     {
       path: '/three',
       name: 'three',
-      component: () => import(/* webpackChunkName: "about" */ './views/Three.vue')
+      component: () => import(/* webpackChunkName: "three" */ './views/Three.vue')
     },
     { path: '*', redirect: '/home' }
   ]

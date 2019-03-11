@@ -128,17 +128,25 @@ router.afterEach((to, from) => {
   // 主动派发hashchange
   window.dispatchEvent(evt)
 })
+// 解决原生键盘导致页面错位
 const DOMRectArr = []
+/**
+ * 聚焦事件
+ */
 Vue.prototype.$handleInputFocus = e => {
-  DOMRectArr.push(e.target.getBoundingClientRect())
+  DOMRectArr.push(e.target.getBoundingClientRect()) // 计数器加一（本事例的计数标识为对象位置，非必要）
 }
+/**
+ * 失焦事件
+ */
 Vue.prototype.$handleInputBlur = e => {
-  DOMRectArr.shift()
-  const timer = setTimeout(() => {
+  DOMRectArr.shift() // 移除计数标识
+  // const boundingClientRect = DOMRectArr.shift() // 移除计数标识，并获取对象位置
+  const timer = setTimeout(() => { // 延迟判断，以防切换下一个输入框时触发滚动
     clearTimeout(timer)
-    // window.scrollTo(0, window.scrollY + DOMRectArr[DOMRectArr.length-1].y)
-    if (DOMRectArr.length === 0) {
-      window.scrollTo(0, 1)
+    if (DOMRectArr.length === 0) { // 最后一个输入框失焦时触发滚动
+      window.scrollTo(0, 1) // 滚回顶部
+      // window.scrollTo(0, window.scrollY + boundingClientRect.y) // 滚到当前元素位置（未经测试）
     }
   }, 0)
 }

@@ -51,7 +51,7 @@ export default {
 @import "~muse-ui/lib/styles/theme.less";
 @import "~muse-ui-loading/dist/muse-ui-loading.css";
 @import "~muse-ui-message/dist/muse-ui-message.css";
-@import "./assets/less/base.less";
+@import "./assets/less/lib-reset.less";
 @import "./assets/less/style.less";
 #app {
   // padding-bottom: 34px;

@@ -1,0 +1,13 @@
+/*
+ less function 写法,不能使用驼峰式
+ https://github.com/seven-phases-max/less-plugin-functions
+ */
+
+.function {
+  .get-img-width(@imgUrl,@scale:1){
+    return: unit(image-width(@imgUrl),px) * @scale;
+  }
+  .get-img-height(@imgUrl,@scale:1){
+    return: unit(image-height(@imgUrl),px) * @scale;
+  }
+}

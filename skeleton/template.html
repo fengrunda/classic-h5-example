@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="zh">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
+  <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+  <meta HTTP-EQUIV="expires" CONTENT="0">
+  <meta name="format-detection" content="telephone=no">
+  <meta name="format-detection" content="email=no">
+  <title>classic-h5-demo</title>
+  <script>
+    (function () {
+      function getURLParameter(key = '', position = 'search') {
+        var url = window.location[position === 'hash' ? 'hash' : 'search'];
+        var theRequest = new Object();
+        if (url.indexOf('?') != -1) {
+          var str = url.substr(url.indexOf('?') + 1);
+          var strs = str.split('&');
+          for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1]);
+          }
+        }
+        return key ? theRequest[key] : theRequest;
+      }
+      if (!getURLParameter('timestamp')) {
+        var url = new URL(location.href)
+        console.log(url)
+        var timestampString = 'timestamp=' + (new Date().getTime())
+        url.search += (url.search.indexOf('?') !== -1 ? '&' : '?') + timestampString
+        location.replace(url.href)
+      }
+    })();
+  </script>
+</head>
+
+<body>
+  <noscript>
+    <strong>We're sorry but classic-h5-demo doesn't work properly without JavaScript enabled. Please enable it to
+      continue.</strong>
+  </noscript>
+  <div id="app">
+    <!--vue-ssr-outlet-->
+  </div>
+  <!-- built files will be auto injected -->
+</body>
+
+</html>

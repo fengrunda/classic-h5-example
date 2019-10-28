@@ -1,42 +1,29 @@
 const path = require('path')
+// const webpack = require('webpack')
+const LessPluginFunctions = require('less-plugin-functions')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
 module.exports = {
   lintOnSave: false,
-  // baseUrl: process.env.VUE_APP_BUILD_TYPE === 'development' ? '/' : (process.env.VUE_APP_BUILD_TYPE === 'test' ? '/zizai/universal-login/' : '/universal-login/'),  // 根据不同环境配置不同的baseUrl
-  baseUrl: './',
-  outputDir: undefined,
-  assetsDir: undefined,
-  runtimeCompiler: undefined,
-  productionSourceMap: undefined,
-  parallel: undefined,
-  css: {
-    loaderOptions: {
-      postcss: {
-        // 配置了这里就不需要在package.json里配置，这里优先级最高
-        plugins: [
-          require('autoprefixer')({}),
-          // require('postcss-px2rem')({ remUnit: 37.5 })
-          require('postcss-px-to-viewport')({
-            viewportWidth: 375, // 视窗的宽度，对应的是我们设计稿的宽度，一般是750
-            // viewportHeight: 1334, // 视窗的高度，根据750设备的宽度来指定，一般指定1334，也可以不配置
-            unitPrecision: 3, // 指定`px`转换为视窗单位值的小数位数（很多时候无法整除）
-            viewportUnit: 'vw', // 指定需要转换成的视窗单位，建议使用vw
-            // selectorBlackList: ['.ignore', '.hairlines'], // 指定不转换为视窗单位的类，可以自定义，可以无限添加,建议定义一至两个通用的类名
-            minPixelValue: 1 // 小于或等于`1px`不转换为视窗单位，你也可以设置为你想要的值
-            // mediaQuery: false // 允许在媒体查询中转换`px`
-          })
-        ]
-      }
-    }
-  },
+  publicPath: './',
+  // 根据不同环境配置不同的baseUrl
+  // baseUrl: process.env.VUE_APP_BUILD_TYPE === 'development' ? '/' : (process.env.VUE_APP_BUILD_TYPE === 'test' ? '/zizai/universal-login/' : '/universal-login/'),
+  productionSourceMap: process.env.VUE_APP_BUILD_TYPE !== 'production', // 生产环境关闭productionSourceMap
   devServer: {
-    disableHostCheck: true,
+    disableHostCheck: true, // 开了才能用改host方式访问
     proxy: {
       '/api': {
         target: 'http://t.api.zizai.rfmember.net/',
         // ws: true,
         changeOrigin: true
       }
+      // '/store/api': {
+      //   target: 'http://t.api.zizai.rfmember.net/api',
+      //   ws: true,
+      //   changeOrigin: true,
+      //   pathRewrite: {
+      //     '^/store/api': '/api'
+      //   }
+      // }
     }
   },
   configureWebpack: config => {
@@ -53,10 +40,24 @@ module.exports = {
           minRatio: 0.8
         })
       )
+      // momentjs 删除多余的本地化文件
+      // config.plugins.push(new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/))
+    }
+  },
+  css: {
+    loaderOptions: {
+      // 给 sass-loader 传递选项
+      less: {
+        // @/ 是 src/ 的别名
+        // 所以这里假设你有 `src/variables.scss` 这个文件
+        plugins: [
+          new LessPluginFunctions()
+        ]
+      }
     }
   },
   chainWebpack: config => {
-    // 移除 prefetch 插件
+    // 移除 prefetch 插件，按需开启
     config.plugins.delete('prefetch')
     // 自动化导入全局less方法和变量
     const types = ['vue-modules', 'vue', 'normal-modules', 'normal']
@@ -69,7 +70,8 @@ function addStyleResource (rule) {
     .options({
       patterns: [
         path.resolve(__dirname, 'src/assets/less/lib-base.less'),
-        path.resolve(__dirname, 'src/assets/less/lib-mixins.less')
+        path.resolve(__dirname, 'src/assets/less/lib-mixins.less'),
+        path.resolve(__dirname, 'src/assets/less/lib-func.less')
       ]
     })
 }

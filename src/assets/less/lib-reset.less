@@ -1,14 +1,13 @@
+// 使用哪种rest方案待定
+@import "./lib-base.less";
 * {
   box-sizing: border-box;
 }
-// -webkit-transform-style:preserve-3d;或-webkit-backface-visibility:hidden;如何解决Chrome在应用transition时页面闪动的问题？
 #app,
 body,
 html {
   position: relative;
   margin: 0;
-  // height: 100%;
-  // transform: translate3d(0, 0, 0);
 }
 
 ::-webkit-scrollbar {
@@ -21,7 +20,7 @@ html {
   flex-direction: column;
   justify-content: flex-start;
   align-items: stretch;
-  min-height: 100%;
+  height: 100%;
 }
 
 body {
@@ -29,18 +28,10 @@ body {
   -webkit-overflow-scrolling: touch;
   font: 14px "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
   color: #333;
-  // font-size: 14px;
-  // transform: translate3d(0, 0, 0);
-  // -webkit-backface-visibility: hidden;
   display: flex;
   justify-content: center;
   align-items: stretch;
   flex: 1 0 auto;
-  // height: 100%;
-  // .getImgSize("../images/bg_g.png",0.5);
-  // background-image: @c_bg_linear;
-  // background-repeat: repeat;
-  // background-size: @imgW @imgH;
 }
 
 button,
@@ -67,9 +58,8 @@ textarea {
   width: 100%;
   min-height: 352px;
   font-size: 14px;
-  // background-image: @c_bg_linear;
   overflow: hidden;
-  // background: @c_bg_linear;
+  // background-image: @c_bg_linear;
   background-color: @c_bg;
 }
 

@@ -76,17 +76,23 @@ const option = {
 }
 const initProxy = () => {
   let proxyArr = []
+  const baseUrl = '/zizai' // 服务器上的二级目录名称
   for (let key of Object.keys(config.devServer.proxy)) {
-    let proxyContext = key
+    let proxyContext = baseUrl + key
     let proxyConfig = {
       target: config.devServer.proxy[key].target,
       changeOrigin: true, // 默认false，是否需要改变原始主机头为目标URL
-      ws: true // 是否代理websockets
+      ws: true, // 是否代理websockets
+      pathRewrite: {
+        // `^${baseUrl}/api`: "/api"
+      }
     }
+    proxyConfig.pathRewrite = Object.assign(proxyConfig.pathRewrite, { [`^${baseUrl}/api`]: '/api' }) // 配置Rewrite
     proxyArr.push(proxy(proxyContext, proxyConfig))
   }
-  console.log(proxyArr)
+  // console.log(proxyArr)
   option.server.middleware = option.server.middleware.concat(proxyArr)
+  // option.server.middleware = proxyArr
 }
 initProxy()
 browserSync(option)

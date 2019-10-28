@@ -4,358 +4,489 @@
 <head>
   <meta charset="utf-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
+  <meta name="viewport"
+    content="width=device-width,initial-scale=1,maximum-scale=1,minimum-scale=1,user-scalable=no,viewport-fit=cover">
   <meta HTTP-EQUIV="pragma" CONTENT="no-cache">
   <meta HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
   <meta HTTP-EQUIV="expires" CONTENT="0">
-  <!--使设备浏览网页时对数字不启用电话功能（不同设备解释不同，itouch点击数字为存入联系人，iphone为拨打电话），忽略将页面中的数字识别为电话号码。-->
   <meta name="format-detection" content="telephone=no">
-  <!--忽略识别邮箱-->
   <meta name="format-detection" content="email=no">
-  <!-- <link rel="icon" href="<%= BASE_URL %>favicon.ico"> -->
-  <script src="<%= BASE_URL %>jweixin-1.4.0.js"></script>
-  <title>classic-h5-example</title>
-</head>
+  <title>classic-h5-demo</title>
+  <script>
+    (function () {
+      function getURLParameter(key = '', position = 'search') {
+        var url = window.location[position === 'hash' ? 'hash' : 'search'];
+        var theRequest = new Object();
+        if (url.indexOf('?') != -1) {
+          var str = url.substr(url.indexOf('?') + 1);
+          var strs = str.split('&');
+          for (var i = 0; i < strs.length; i++) {
+            theRequest[strs[i].split('=')[0]] = unescape(strs[i].split('=')[1]);
+          }
+        }
+        return key ? theRequest[key] : theRequest;
+      }
+      if (!getURLParameter('timestamp')) {
+        var url = new URL(location.href)
+        console.log(url)
+        var timestampString = 'timestamp=' + (new Date().getTime())
+        url.search += (url.search.indexOf('?') !== -1 ? '&' : '?') + timestampString
+        location.replace(url.href)
+      }
+    })();
+  </script>
+<style data-vue-ssr-id="d3afd900:0">.mu-linear-progress {
+  position: relative;
+  height: 1.067vw;
+  display: block;
+  width: 100%;
+  margin: 0px;
+  overflow: hidden;
+}
+.mu-linear-progress.mu-secondary-color {
+  background-color: transparent;
+}
+.mu-linear-progress.mu-secondary-color .mu-linear-progress-background,
+.mu-linear-progress.mu-secondary-color .mu-linear-progress-indeterminate,
+.mu-linear-progress.mu-secondary-color .mu-linear-progress-determinate {
+  background-color: #ff4081;
+}
+.mu-linear-progress.mu-success-color {
+  background-color: transparent;
+}
+.mu-linear-progress.mu-success-color .mu-linear-progress-background,
+.mu-linear-progress.mu-success-color .mu-linear-progress-indeterminate,
+.mu-linear-progress.mu-success-color .mu-linear-progress-determinate {
+  background-color: #4caf50;
+}
+.mu-linear-progress.mu-warning-color {
+  background-color: transparent;
+}
+.mu-linear-progress.mu-warning-color .mu-linear-progress-background,
+.mu-linear-progress.mu-warning-color .mu-linear-progress-indeterminate,
+.mu-linear-progress.mu-warning-color .mu-linear-progress-determinate {
+  background-color: #fdd835;
+}
+.mu-linear-progress.mu-info-color {
+  background-color: transparent;
+}
+.mu-linear-progress.mu-info-color .mu-linear-progress-background,
+.mu-linear-progress.mu-info-color .mu-linear-progress-indeterminate,
+.mu-linear-progress.mu-info-color .mu-linear-progress-determinate {
+  background-color: #2196f3;
+}
+.mu-linear-progress.mu-error-color {
+  background-color: transparent;
+}
+.mu-linear-progress.mu-error-color .mu-linear-progress-background,
+.mu-linear-progress.mu-error-color .mu-linear-progress-indeterminate,
+.mu-linear-progress.mu-error-color .mu-linear-progress-determinate {
+  background-color: #f44336;
+}
+.mu-linear-progress.mu-primary-color {
+  background-color: transparent;
+}
+.mu-linear-progress-background {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #2196f3;
+  opacity: 0.3;
+}
+.mu-linear-progress-indeterminate {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 40%;
+  background-color: #2196f3;
+  -webkit-animation: mu-linear-progress-animate 840ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+          animation: mu-linear-progress-animate 840ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+}
+.mu-linear-progress-determinate {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background-color: #2196f3;
+  -webkit-transition: width 0.3s linear;
+  transition: width 0.3s linear;
+}
+@-webkit-keyframes mu-linear-progress-animate {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+@keyframes mu-linear-progress-animate {
+  0% {
+    left: -40%;
+  }
+  100% {
+    left: 100%;
+  }
+}
+.mu-focus-ripple {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: 50%;
+  opacity: 0.16;
+  background-color: currentColor;
+  -webkit-animation: mu-pulsate 750ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+          animation: mu-pulsate 750ms cubic-bezier(0.445, 0.05, 0.55, 0.95);
+  -webkit-animation-iteration-count: infinite;
+          animation-iteration-count: infinite;
+  -webkit-animation-direction: alternate;
+          animation-direction: alternate;
+}
+@-webkit-keyframes mu-pulsate {
+  0% {
+    -webkit-transform: scale(0.72);
+            transform: scale(0.72);
+  }
+  100% {
+    -webkit-transform: scale(0.85);
+            transform: scale(0.85);
+  }
+}
+@keyframes mu-pulsate {
+  0% {
+    -webkit-transform: scale(0.72);
+            transform: scale(0.72);
+  }
+  100% {
+    -webkit-transform: scale(0.85);
+            transform: scale(0.85);
+  }
+}
+.mu-circle-wrapper {
+  display: inline-block;
+  position: relative;
+  width: 12.8vw;
+  height: 12.8vw;
+}
+.mu-circle-wrapper.active {
+  -webkit-animation: container-rotate 1568ms linear infinite;
+  animation: container-rotate 1568ms linear infinite;
+}
+.mu-circle-wrapper .mu-circle {
+  border-radius: 50%;
+}
+.mu-circle-wrapper .left {
+  float: left !important;
+}
+.mu-circle-wrapper .right {
+  float: right !important;
+}
+.mu-circle-spinner {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  opacity: 0;
+  border-color: #2196f3;
+  opacity: 1;
+  -webkit-animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+  animation: fill-unfill-rotate 5332ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+}
+.mu-circle-spinner.mu-secondary-color {
+  border-color: #ff4081;
+  background-color: transparent;
+}
+.mu-circle-spinner.mu-success-color {
+  border-color: #4caf50;
+  background-color: transparent;
+}
+.mu-circle-spinner.mu-warning-color {
+  border-color: #fdd835;
+  background-color: transparent;
+}
+.mu-circle-spinner.mu-info-color {
+  border-color: #2196f3;
+  background-color: transparent;
+}
+.mu-circle-spinner.mu-error-color {
+  border-color: #f44336;
+  background-color: transparent;
+}
+.mu-circle-spinner.mu-primary-color {
+  background-color: transparent;
+}
+.mu-circle-spinner.mu-inverse {
+  color: inherit;
+}
+.mu-circle-clipper {
+  display: inline-block;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
+  border-color: inherit;
+}
+.mu-circle-gap-patch {
+  position: absolute;
+  top: 0;
+  left: 45%;
+  width: 10%;
+  height: 100%;
+  overflow: hidden;
+  border-color: inherit;
+}
+.mu-circle-gap-patch .mu-circle {
+  width: 1000%;
+  left: -450%;
+}
+.mu-circle-clipper .mu-circle {
+  width: 200%;
+  height: 100%;
+  border-width: 0.8vw;
+  border-style: solid;
+  border-color: inherit;
+  border-bottom-color: transparent !important;
+  border-radius: 50%;
+  -webkit-animation: none;
+  animation: none;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+.mu-circle-spinner.active .mu-circle-clipper.left .mu-circle {
+  -webkit-animation: left-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+  animation: left-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+}
+.mu-circle-spinner.active .mu-circle-clipper.right .mu-circle {
+  -webkit-animation: right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+  animation: right-spin 1333ms cubic-bezier(0.4, 0, 0.2, 1) infinite both;
+}
+.mu-circle-clipper.left .mu-circle {
+  left: 0;
+  border-right-color: transparent !important;
+  -webkit-transform: rotate(129deg);
+  transform: rotate(129deg);
+}
+.mu-circle-clipper.right .mu-circle {
+  left: -100%;
+  border-left-color: transparent !important;
+  -webkit-transform: rotate(-129deg);
+  transform: rotate(-129deg);
+}
+@-webkit-keyframes fill-unfill-rotate {
+  12.5% {
+    -webkit-transform: rotate(135deg);
+  }
+  25% {
+    -webkit-transform: rotate(270deg);
+  }
+  37.5% {
+    -webkit-transform: rotate(405deg);
+  }
+  50% {
+    -webkit-transform: rotate(540deg);
+  }
+  62.5% {
+    -webkit-transform: rotate(675deg);
+  }
+  75% {
+    -webkit-transform: rotate(810deg);
+  }
+  87.5% {
+    -webkit-transform: rotate(945deg);
+  }
+  to {
+    -webkit-transform: rotate(1080deg);
+  }
+}
+@keyframes fill-unfill-rotate {
+  12.5% {
+    -webkit-transform: rotate(135deg);
+            transform: rotate(135deg);
+  }
+  25% {
+    -webkit-transform: rotate(270deg);
+            transform: rotate(270deg);
+  }
+  37.5% {
+    -webkit-transform: rotate(405deg);
+            transform: rotate(405deg);
+  }
+  50% {
+    -webkit-transform: rotate(540deg);
+            transform: rotate(540deg);
+  }
+  62.5% {
+    -webkit-transform: rotate(675deg);
+            transform: rotate(675deg);
+  }
+  75% {
+    -webkit-transform: rotate(810deg);
+            transform: rotate(810deg);
+  }
+  87.5% {
+    -webkit-transform: rotate(945deg);
+            transform: rotate(945deg);
+  }
+  to {
+    -webkit-transform: rotate(1080deg);
+            transform: rotate(1080deg);
+  }
+}
+@-webkit-keyframes left-spin {
+  from {
+    -webkit-transform: rotate(130deg);
+  }
+  50% {
+    -webkit-transform: rotate(-5deg);
+  }
+  to {
+    -webkit-transform: rotate(130deg);
+  }
+}
+@keyframes left-spin {
+  from {
+    -webkit-transform: rotate(130deg);
+            transform: rotate(130deg);
+  }
+  50% {
+    -webkit-transform: rotate(-5deg);
+            transform: rotate(-5deg);
+  }
+  to {
+    -webkit-transform: rotate(130deg);
+            transform: rotate(130deg);
+  }
+}
+@-webkit-keyframes right-spin {
+  from {
+    -webkit-transform: rotate(-130deg);
+  }
+  50% {
+    -webkit-transform: rotate(5deg);
+  }
+  to {
+    -webkit-transform: rotate(-130deg);
+  }
+}
+@keyframes right-spin {
+  from {
+    -webkit-transform: rotate(-130deg);
+            transform: rotate(-130deg);
+  }
+  50% {
+    -webkit-transform: rotate(5deg);
+            transform: rotate(5deg);
+  }
+  to {
+    -webkit-transform: rotate(-130deg);
+            transform: rotate(-130deg);
+  }
+}
+@-webkit-keyframes container-rotate {
+  to {
+    -webkit-transform: rotate(360deg);
+  }
+}
+@keyframes container-rotate {
+  to {
+    -webkit-transform: rotate(360deg);
+            transform: rotate(360deg);
+  }
+}
+.mu-circular-progress {
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+}
+.mu-circular-progress.mu-secondary-color {
+  background: transparent;
+}
+.mu-circular-progress.mu-secondary-color .mu-circular-progress-determinate-path {
+  stroke: #ff4081;
+}
+.mu-circular-progress.mu-success-color {
+  background: transparent;
+}
+.mu-circular-progress.mu-success-color .mu-circular-progress-determinate-path {
+  stroke: #4caf50;
+}
+.mu-circular-progress.mu-warning-color {
+  background: transparent;
+}
+.mu-circular-progress.mu-warning-color .mu-circular-progress-determinate-path {
+  stroke: #fdd835;
+}
+.mu-circular-progress.mu-info-color {
+  background: transparent;
+}
+.mu-circular-progress.mu-info-color .mu-circular-progress-determinate-path {
+  stroke: #2196f3;
+}
+.mu-circular-progress.mu-error-color {
+  background: transparent;
+}
+.mu-circular-progress.mu-error-color .mu-circular-progress-determinate-path {
+  stroke: #f44336;
+}
+.mu-circular-progress.mu-primary-color {
+  background: transparent;
+}
+.mu-circular-progress.mu-inverse {
+  color: inherit;
+}
+.mu-circular-progress-determinate {
+  position: relative;
+}
+.mu-circular-progress-determinate-path {
+  stroke: #2196f3;
+  stroke-linecap: round;
+  -webkit-transition: all 0.3s linear;
+  transition: all 0.3s linear;
+}
+</style><style data-vue-ssr-id="172ca59a:0">.loading[data-v-efe9d588] {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(255, 255, 255, 0.3);
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.loading[data-v-efe9d588] * {
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+}
+.loading[data-v-efe9d588] .mu-circular-progress {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+}
+.loading .text[data-v-efe9d588] {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
+  margin-top: 10.667vw;
+}
+</style></head>
 
 <body>
   <noscript>
-    <strong>We're sorry but classic-h5-example doesn't work properly without JavaScript enabled. Please enable it to
+    <strong>We're sorry but classic-h5-demo doesn't work properly without JavaScript enabled. Please enable it to
       continue.</strong>
   </noscript>
-  <div id="static-loading" class="loading-bg">
-    <style type="text/css">
-      .loading-bg * {
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-      }
-
-      .mu-circular-progress {
-        display: inline-block;
-        position: relative;
-        overflow: hidden
-      }
-
-      .mu-circular-progress-determinate {
-        position: relative
-      }
-
-      .mu-circular-progress-determinate-path {
-        stroke: #7e57c2;
-        stroke-linecap: round;
-        -webkit-transition: all .3s linear;
-        -o-transition: all .3s linear;
-        transition: all .3s linear
-      }
-
-      .mu-circle-wrapper {
-        display: inline-block;
-        position: relative;
-        width: 48px;
-        height: 48px;
-        box-sizing: border-box;
-      }
-
-      .mu-circle-wrapper.active {
-        -webkit-animation: e 1568ms linear infinite;
-        animation: e 1568ms linear infinite
-      }
-
-      .mu-circle-wrapper .mu-circle {
-        border-radius: 50%
-      }
-
-      .mu-circle-wrapper .left {
-        float: left !important
-      }
-
-      .mu-circle-wrapper .right {
-        float: right !important
-      }
-
-      .mu-circle-spinner {
-        position: absolute;
-        width: 100%;
-        height: 100%;
-        opacity: 0;
-        border-color: #2196f3;
-        opacity: 1;
-        -webkit-animation: b 5332ms cubic-bezier(.4, 0, .2, 1) infinite both;
-        animation: b 5332ms cubic-bezier(.4, 0, .2, 1) infinite both
-      }
-
-      .mu-circle-secondary {
-        border-color: #ff4081
-      }
-
-      .mu-circle-clipper {
-        display: inline-block;
-        position: relative;
-        width: 50%
-      }
-
-      .mu-circle-clipper,
-      .mu-circle-gap-patch {
-        height: 100%;
-        overflow: hidden;
-        border-color: inherit
-      }
-
-      .mu-circle-gap-patch {
-        position: absolute;
-        top: 0;
-        left: 45%;
-        width: 10%
-      }
-
-      .mu-circle-gap-patch .mu-circle {
-        width: 1000%;
-        left: -450%
-      }
-
-      .mu-circle-clipper .mu-circle {
-        width: 200%;
-        height: 100%;
-        border-width: 3px;
-        border-style: solid;
-        border-color: inherit;
-        border-bottom-color: transparent !important;
-        border-radius: 50%;
-        -webkit-animation: none;
-        animation: none;
-        position: absolute;
-        top: 0;
-        right: 0;
-        bottom: 0
-      }
-
-      .mu-circle-spinner.active .mu-circle-clipper.left .mu-circle {
-        -webkit-animation: c 1333ms cubic-bezier(.4, 0, .2, 1) infinite both;
-        animation: c 1333ms cubic-bezier(.4, 0, .2, 1) infinite both
-      }
-
-      .mu-circle-spinner.active .mu-circle-clipper.right .mu-circle {
-        -webkit-animation: d 1333ms cubic-bezier(.4, 0, .2, 1) infinite both;
-        animation: d 1333ms cubic-bezier(.4, 0, .2, 1) infinite both
-      }
-
-      .mu-circle-clipper.left .mu-circle {
-        left: 0;
-        border-right-color: transparent !important;
-        -webkit-transform: rotate(129deg);
-        -ms-transform: rotate(129deg);
-        transform: rotate(129deg)
-      }
-
-      .mu-circle-clipper.right .mu-circle {
-        left: -100%;
-        border-left-color: transparent !important;
-        -webkit-transform: rotate(-129deg);
-        -ms-transform: rotate(-129deg);
-        transform: rotate(-129deg)
-      }
-
-      @-webkit-keyframes b {
-        12.5% {
-          -webkit-transform: rotate(135deg)
-        }
-
-        25% {
-          -webkit-transform: rotate(270deg)
-        }
-
-        37.5% {
-          -webkit-transform: rotate(405deg)
-        }
-
-        50% {
-          -webkit-transform: rotate(540deg)
-        }
-
-        62.5% {
-          -webkit-transform: rotate(675deg)
-        }
-
-        75% {
-          -webkit-transform: rotate(810deg)
-        }
-
-        87.5% {
-          -webkit-transform: rotate(945deg)
-        }
-
-        to {
-          -webkit-transform: rotate(3turn)
-        }
-      }
-
-      @keyframes b {
-        12.5% {
-          -webkit-transform: rotate(135deg);
-          transform: rotate(135deg)
-        }
-
-        25% {
-          -webkit-transform: rotate(270deg);
-          transform: rotate(270deg)
-        }
-
-        37.5% {
-          -webkit-transform: rotate(405deg);
-          transform: rotate(405deg)
-        }
-
-        50% {
-          -webkit-transform: rotate(540deg);
-          transform: rotate(540deg)
-        }
-
-        62.5% {
-          -webkit-transform: rotate(675deg);
-          transform: rotate(675deg)
-        }
-
-        75% {
-          -webkit-transform: rotate(810deg);
-          transform: rotate(810deg)
-        }
-
-        87.5% {
-          -webkit-transform: rotate(945deg);
-          transform: rotate(945deg)
-        }
-
-        to {
-          -webkit-transform: rotate(3turn);
-          transform: rotate(3turn)
-        }
-      }
-
-      @-webkit-keyframes c {
-        0% {
-          -webkit-transform: rotate(130deg)
-        }
-
-        50% {
-          -webkit-transform: rotate(-5deg)
-        }
-
-        to {
-          -webkit-transform: rotate(130deg)
-        }
-      }
-
-      @keyframes c {
-        0% {
-          -webkit-transform: rotate(130deg);
-          transform: rotate(130deg)
-        }
-
-        50% {
-          -webkit-transform: rotate(-5deg);
-          transform: rotate(-5deg)
-        }
-
-        to {
-          -webkit-transform: rotate(130deg);
-          transform: rotate(130deg)
-        }
-      }
-
-      @-webkit-keyframes d {
-        0% {
-          -webkit-transform: rotate(-130deg)
-        }
-
-        50% {
-          -webkit-transform: rotate(5deg)
-        }
-
-        to {
-          -webkit-transform: rotate(-130deg)
-        }
-      }
-
-      @keyframes d {
-        0% {
-          -webkit-transform: rotate(-130deg);
-          transform: rotate(-130deg)
-        }
-
-        50% {
-          -webkit-transform: rotate(5deg);
-          transform: rotate(5deg)
-        }
-
-        to {
-          -webkit-transform: rotate(-130deg);
-          transform: rotate(-130deg)
-        }
-      }
-
-      @-webkit-keyframes e {
-        to {
-          -webkit-transform: rotate(1turn)
-        }
-      }
-
-      @keyframes e {
-        to {
-          -webkit-transform: rotate(1turn);
-          transform: rotate(1turn)
-        }
-      }
-
-      .loading-bg {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        z-index: 9999;
-        background-color: rgba(255, 255, 255, 0.3);
-        -webkit-box-sizing: border-box;
-        box-sizing: border-box;
-        font-family: "Helvetica Neue", Helvetica, Arial, "Microsoft Yahei", "Hiragino Sans GB", "Heiti SC", "WenQuanYi Micro Hei", sans-serif;
-        font-size: 14px;
-      }
-
-      .loading-bg .mu-circular-progress {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-      }
-
-      .loading-bg .text {
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        -webkit-transform: translate(-50%, -50%);
-        transform: translate(-50%, -50%);
-        margin-top: 40px;
-        font-family: Roboto, Lato, sans-serif;
-      }
-    </style>
-    <div class="mu-circular-progress" style="width: 48px; height: 48px;">
-      <div class="mu-circle-wrapper active" style="width: 48px; height: 48px;">
-        <div class="mu-circle-spinner active">
-          <div class="mu-circle-clipper left">
-            <div class="mu-circle" style="border-width: 2px;"></div>
-          </div>
-          <div class="mu-circle-gap-patch">
-            <div class="mu-circle"></div>
-          </div>
-          <div class="mu-circle-clipper right">
-            <div class="mu-circle" style="border-width: 2px;"></div>
-          </div>
-        </div>
-      </div>
-      <!---->
-    </div>
-    <!-- <div class="text" id="percentage">0%</div> -->
+  <div id="app">
+    <div data-server-rendered="true" class="loading" data-v-efe9d588><div class="mu-circular-progress " style="width:50px;height:50px;" data-v-efe9d588><div class="mu-circle-wrapper active" style="width:50px;height:50px;"><div class="mu-circle-spinner active " style="border-color:;"><div class="mu-circle-clipper left"><div class="mu-circle" style="border-width:3px;"></div></div><div class="mu-circle-gap-patch"><div class="mu-circle"></div></div><div class="mu-circle-clipper right"><div class="mu-circle" style="border-width:3px;"></div></div></div></div></div></div>
   </div>
-  <div id="app"></div>
   <!-- built files will be auto injected -->
 </body>
 

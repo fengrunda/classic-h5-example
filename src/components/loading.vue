@@ -1,70 +1,54 @@
 <template>
   <div class="loading">
-    <div class="loading-bg" v-if="isVisible">
-      <mu-circular-progress :size="50"/>
-      <!-- <div class="text">100%</div> -->
-    </div>
+    <mu-circular-progress :size="50"/>
+    <!-- <hello-world></hello-world> -->
+    <!-- <div class="text">100%</div> -->
   </div>
 </template>
 
 <script>
+// import helloWorld from './HelloWorld'
 export default {
   name: 'loading',
   data () {
-    return {
-      isVisible: true
-    }
+    return {}
   },
-  computed: {
-    // text () {
-    //   return this.$store.state.loading.text
-    // }
-    // isVisible: {
-    //   get () {
-    //     return this.$store.state.loading.visible
-    //   },
-    //   set (value) {
-    //     !value && this.$store.dispatch('loadingVisible', { visible: value })
-    //   }
-    // }
-  },
-  methods: {
-  },
-  created () {
-
-  },
-  mounted () {
-
-  },
+  computed: {},
+  methods: {},
+  created () {},
+  mounted () {},
   components: {
+    // helloWorld
   }
 }
 </script>
-<style lang="less" scoped>
-@import "../assets/less/lib-reset.less";
+<style scoped lang="less">
+@import "../assets/less/lib-base.less";
 @import "../assets/less/lib-mixins.less";
 .loading {
-  .loading-bg {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 9999;
-    background-color: rgba(255, 255, 255, 0.3);
-    .mu-circular-progress {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .text {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      margin-top: 40px;
-    }
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 9999;
+  background-color: rgba(255, 255, 255, 0.3);
+  box-sizing: border-box;
+  /deep/ * {
+    box-sizing: border-box;
+  }
+  /deep/ .mu-circular-progress {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+  .text {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin-top: 40px;
   }
 }
 </style>

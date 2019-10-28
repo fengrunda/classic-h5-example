@@ -2,7 +2,7 @@ module.exports = {
   presets: [
     '@vue/app'
   ],
-  plugins: [
+  plugins: [ // museUI 按需加载
     ['import', {
       'libraryName': 'muse-ui',
       'libraryDirectory': 'lib',

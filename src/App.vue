@@ -1,11 +1,14 @@
 <template>
-  <div id="app" @click="$event=>{}">
+  <div id="app">
     <div id="nav">
-      <router-link to="/home">Home</router-link>|
-      <router-link to="/about">About</router-link>|
-      <router-link to="/three">Three</router-link>
+      <router-link to="/home">Home</router-link> |
+      <router-link to="/about">About</router-link> |
+      <router-link to="/three">Three</router-link> |
+      <router-link to="/loading">Loading</router-link>
     </div>
-    <router-view/>
+    <transition name="fade" mode="out-in" appear>
+      <router-view/>
+    </transition>
   </div>
 </template>
 <script>
@@ -46,33 +49,11 @@ export default {
 }
 </script>
 <style lang="less">
-@import "~material-design-icons/iconfont/material-icons.css";
-@import "~muse-ui/lib/styles/base.less";
-@import "~muse-ui/lib/styles/theme.less";
-@import "~muse-ui-loading/dist/muse-ui-loading.css";
-@import "~muse-ui-message/dist/muse-ui-message.css";
+// 第三方库样式在此引用，以防构建后样式的覆盖顺序错乱
+@import '~muse-ui-loading/dist/muse-ui-loading.css';
+
 @import "./assets/less/lib-reset.less";
+@import "./assets/less/lib-ui.less";
 @import "./assets/less/style.less";
-#app {
-  // padding-bottom: 34px;
-  padding-bottom: env(safe-area-inset-bottom);
-  padding-left: env(safe-area-inset-left);
-  padding-right: env(safe-area-inset-right);
-  //   font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  //   -webkit-font-smoothing: antialiased;
-  //   -moz-osx-font-smoothing: grayscale;
-  //   text-align: center;
-  //   color: #2c3e50;
-  background-color: #fff;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
-  }
-}
+
 </style>

@@ -1,4 +1,7 @@
+import Vue from 'vue'
+import Message from '@/components/Message/Message.js'
 import muLoading from 'muse-ui-loading'
+Vue.use(Message)
 /**
  * 错误信息字符化
  * @param {*} error 错误对象
@@ -20,9 +23,11 @@ const errorFormatter = (error, methodName) => {
 const ToastInterface = options => {
   if (typeof options === 'string') {
     console.log(options)
+    Vue.prototype.$message({ text: options })
   } else {
-    const { duration = 3000, type = '', message = '' } = options
+    const { duration = 3000, type = 'info', message = '' } = options
     console.log(duration, type, message)
+    Vue.prototype.$message({ duration, type, text: message })
   }
 }
 /**

@@ -1,8 +1,10 @@
 // 使用哪种rest方案待定
 @import "./lib-base.less";
+
 * {
   box-sizing: border-box;
 }
+
 #app,
 body,
 html {
@@ -26,8 +28,8 @@ html {
 body {
   -webkit-touch-callout: none;
   -webkit-overflow-scrolling: touch;
-  font: 14px "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
-  color: #333;
+  font: 14px "PingFang SC",miui,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,sans-serif;
+  color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
   align-items: stretch;
@@ -38,13 +40,23 @@ button,
 input,
 select,
 textarea {
-  font-family: "Helvetica Neue",Helvetica,Arial,"Microsoft Yahei","Hiragino Sans GB","Heiti SC","WenQuanYi Micro Hei",sans-serif;
+  font-family: "PingFang SC",miui,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,sans-serif;
   outline: none;
   -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
   background: none;
   border: none;
   -webkit-appearance: none;
   font-size: 14px;
+}
+
+a,
+button {
+  border: 0;
+  background-color: transparent;
+
+  &:active {
+    filter: brightness(0.9);
+  }
 }
 
 #app {
@@ -59,8 +71,6 @@ textarea {
   min-height: 352px;
   font-size: 14px;
   overflow: hidden;
-  // background-image: @c_bg_linear;
-  background-color: @c_bg;
 }
 
 .fade-enter-active,
@@ -76,10 +86,12 @@ textarea {
 .mu-snackbar {
   min-width: 375px;
   flex-wrap: nowrap;
+
   .mu-snackbar-message {
     flex: 1 1 auto;
     word-break: break-all;
   }
+
   .mu-snackbar-action {
     flex: 0 0 auto;
   }

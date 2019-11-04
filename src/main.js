@@ -22,6 +22,7 @@ router.beforeEach(async (to, from, next) => {
   if (isFirstVisit) {
     isFirstVisit = false
     next()
+    return
   }
   next()
 })

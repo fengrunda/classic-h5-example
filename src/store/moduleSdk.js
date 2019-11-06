@@ -1,5 +1,3 @@
-const co = require('co')
-
 const modulesSdk = {
   namespaced: true, // 独立命名空间
   state: {
@@ -11,23 +9,15 @@ const modulesSdk = {
      */
     onSdkReady ({ commit, dispatch, state }, { times = 5, delay = 100 } = {}) {
       return new Promise((resolve, reject) => {
-        co(function * () {
-          for (let i = 0; !window.RFBridge; i++) {
-            // var now = Date.now();
-            if (i >= times) {
-              throw new Error('注入超时')
-            }
-            yield function (cb) {
-              setTimeout(cb, delay)
-            }
+        let count = times
+        const timer = setInterval(() => {
+          if (window.RFBridge || count <= 0) {
+            clearInterval(timer)
+            resolve(!!window.RFBridge)
+            commit('SET_IS_APP', !!window.RFBridge)
           }
-        }).then(data => {
-          commit('SET_IS_APP', true)
-          resolve('注入成功')
-        }).catch(reason => {
-          commit('SET_IS_APP', false)
-          reject(reason)
-        })
+          count--
+        }, delay)
       })
     }
   },

@@ -1,13 +1,13 @@
 <template>
-  <div id="app">
+  <div @click="()=>{}" @touchstart="()=>{}" id="app">
     <div id="nav">
-      <router-link to="/home">Home</router-link> |
-      <router-link to="/about">About</router-link> |
-      <router-link to="/three">Three</router-link> |
+      <router-link to="/home">Home</router-link>|
+      <router-link to="/about">About</router-link>|
+      <router-link to="/three">Three</router-link>|
       <router-link to="/loading">Loading</router-link>
     </div>
-    <transition name="fade" mode="out-in" appear>
-      <router-view/>
+    <transition appear mode="out-in" name="fade">
+      <router-view />
     </transition>
   </div>
 </template>
@@ -52,8 +52,7 @@ export default {
 // 第三方库样式在此引用，以防构建后样式的覆盖顺序错乱
 @import '~muse-ui-loading/dist/muse-ui-loading.css';
 
-@import "./assets/less/lib-reset.less";
-@import "./assets/less/lib-ui.less";
-@import "./assets/less/style.less";
-
+@import './assets/less/lib-reset.less';
+@import './assets/less/lib-ui.less';
+@import './assets/less/style.less';
 </style>

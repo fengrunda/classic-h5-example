@@ -26,7 +26,7 @@ const xhrService = ({ url, method, params, ...options }) => {
   }, options)
   const contentTypeKey = Object.keys(axiosParams.headers).find((key) => key.toLowerCase() === 'content-type') || ''
   const contentType = contentTypeKey ? axiosParams.headers[contentTypeKey] : ''
-  if (contentType.toLowerCase() !== 'application/json') {
+  if (!contentType.toLowerCase().match('application/json')) {
     const transformRequest = [(data) => qs.stringify(data)]
     axiosParams.transformRequest = transformRequest
   }

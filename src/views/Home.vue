@@ -9,7 +9,7 @@
 
 <script>
 import { mapState, mapActions } from 'vuex'
-import apiActions from '@/config/apiActions.js'
+import apiActions from '@/config/api.js'
 export default {
   name: 'home',
   data () {

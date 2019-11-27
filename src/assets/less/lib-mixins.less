@@ -10,7 +10,7 @@
   @url: url("@{imgUrl}?scale=@{scale}");
   @imgW: image-width(@imgUrl) * @scale;
   @imgH: image-height(@imgUrl) * @scale;
-  @imgRatio :image-height(@imgUrl)/image-width(@imgUrl);
+  @imgRatio: image-height(@imgUrl)/image-width(@imgUrl);
   background-image: @url;
   background-repeat: no-repeat;
   background-size: @imgW @imgH;
@@ -82,15 +82,15 @@
       z-index: 0;
     }
   }
-  @media only screen and (-webkit-device-pixel-ratio: 1) {
+  @media only screen and (-webkit-max-device-pixel-ratio: 1.99) {
      @dpr: 1;
     border-width: 1px;
   }
-  @media only screen and (-webkit-device-pixel-ratio: 2) {
+  @media only screen and (-webkit-min-device-pixel-ratio: 2) and (-webkit-max-device-pixel-ratio: 2.99) {
      @dpr: 2;
     .before(@dpr);
   }
-  @media only screen and (-webkit-device-pixel-ratio: 3) {
+  @media only screen and (-webkit-min-device-pixel-ratio: 3) {
      @dpr: 3;
     .before(@dpr);
   }

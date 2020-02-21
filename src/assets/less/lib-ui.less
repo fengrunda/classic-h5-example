@@ -2,63 +2,87 @@
 
 /*---------------------------------------------------布局 start -----------------------------------------------------*/
 .pos-r {
-  position: relative;
+  position: relative !important;
 }
 
 .pos-a {
-  position: absolute;
+  position: absolute !important;
 }
 
 .pos-f {
-  position: fixed;
+  position: fixed !important;
 }
 
 .pos-s {
-  position: static;
+  position: static !important;
 }
 
 .pos-sk {
-  position: sticky;
+  position: sticky !important;
 }
 
 .pos-us {
-  position: unset;
+  position: unset !important;
 }
 
 .zi-10 {
-  z-index: 10;
+  z-index: 10 !important;
 }
 
 .d-n {
-  display: none;
+  display: none !important;
 }
 
 .d-b {
-  display: block;
+  display: block !important;
 }
 
 .d-ib {
-  display: inline-block;
+  display: inline-block !important;
 }
 
 .t-0 {
-  top: 0;
+  top: 0 !important;
 }
 
 .r-0 {
-  right: 0;
+  right: 0 !important;
 }
 
 .b-0 {
-  bottom: 0;
+  bottom: 0 !important;
 }
 
 .l-0 {
-  left: 0;
+  left: 0 !important;
 }
 
 .of-h {
-  overflow: hidden;
+  overflow: hidden !important;
+}
+
+.of-a {
+  overflow: auto !important;
+}
+
+.va-t {
+  vertical-align: top !important;
+}
+
+.va-b {
+  vertical-align: bottom !important;
+}
+
+.va-m {
+  vertical-align: middle !important;
+}
+
+.va-bl {
+  vertical-align: baseline !important;
+}
+
+.op-0 {
+  opacity: 0 !important;
 }
 
 .mtLoop(@counter) when (@counter > = 0) {
@@ -67,7 +91,7 @@
   }
   .mtLoop(( @counter - 5));
 }
-.mtLoop(40);
+.mtLoop(80);
 
 .mbLoop(@counter) when (@counter > = 0) {
   .mb-@{counter} {
@@ -75,7 +99,7 @@
   }
   .mbLoop(( @counter - 5));
 }
-.mbLoop(40);
+.mbLoop(80);
 
 .mlLoop(@counter) when (@counter > = 0) {
   .ml-@{counter} {
@@ -83,7 +107,7 @@
   }
   .mlLoop(( @counter - 5));
 }
-.mlLoop(40);
+.mlLoop(80);
 
 .mrLoop(@counter) when (@counter > = 0) {
   .mr-@{counter} {
@@ -91,7 +115,7 @@
   }
   .mrLoop(( @counter - 5));
 }
-.mrLoop(40);
+.mrLoop(80);
 
 .ml-a {
   margin-left: auto !important;
@@ -107,7 +131,7 @@
   }
   .pbLoop(( @counter - 5));
 }
-.pbLoop(40);
+.pbLoop(80);
 
 .ptLoop(@counter) when (@counter > = 0) {
   .pt-@{counter} {
@@ -115,7 +139,7 @@
   }
   .ptLoop(( @counter - 5));
 }
-.ptLoop(40);
+.ptLoop(80);
 
 .plLoop(@counter) when (@counter > = 0) {
   .pl-@{counter} {
@@ -123,7 +147,7 @@
   }
   .plLoop(( @counter - 5));
 }
-.plLoop(40);
+.plLoop(80);
 
 .prLoop(@counter) when (@counter > = 0) {
   .pr-@{counter} {
@@ -131,188 +155,191 @@
   }
   .prLoop(( @counter - 5));
 }
-.prLoop(40);
+.prLoop(80);
 
 .bz-bb {
-  box-sizing: border-box;
+  box-sizing: border-box !important;
 }
 
 .bz-cb {
-  box-sizing: content-box;
-}
-
-.ojf-ct {
-  object-fit: contain;
-}
-
-.ojf-cv {
-  object-fit: cover;
+  box-sizing: content-box !important;
 }
 /*---------------------------------------------------布局 end -----------------------------------------------------*/
 /*---------------------------------------------------文本 start -----------------------------------------------------*/
-.fzLoop(@counter) when (@counter < = 24) {
+.cwLoop(@counter) when (@counter > = 0) {
+  .c-white_@{counter} {
+    color: rgba(255, 255, 255,@counter / 100) !important;
+  }
+  .cwLoop(( @counter - 20));
+}
+.cwLoop(100);
+
+.cbLoop(@counter) when (@counter > = 0) {
+  .c-black_@{counter} {
+    color: rgba(0, 0, 0,@counter / 100) !important;
+  }
+  .cbLoop(( @counter - 20));
+}
+.cbLoop(100);
+
+.fzLoop(@counter) when (@counter < = 48) {
   .fz-@{counter} {
     font-size: unit(@counter, px) !important;
   }
-  .fzLoop(( @counter + 2));
+  .fzLoop(( @counter + 4));
 }
-.fzLoop(10);
+.fzLoop(20);
 
 .fw-b {
-  font-weight: bold;
+  font-weight: bold !important;
 }
 
 .fw-n {
-  font-weight: normal;
+  font-weight: normal !important;
 }
 
 .wob-n {
-  word-break: normal;
+  word-break: normal !important;
 }
 
 .wob-k {
-  word-break: keep-all;
+  word-break: keep-all !important;
 }
 
 .wob-ba {
-  word-break: break-all;
+  word-break: break-all !important;
 }
 
 .wow-b {
-  word-wrap: break-word;
+  word-wrap: break-word !important;
 }
 
 .whs-nw {
-  white-space: nowrap;
+  white-space: nowrap !important;
 }
 
 .ta-c {
-  text-align: center;
+  text-align: center !important;
 }
 
 .ta-l {
-  text-align: left;
+  text-align: left !important;
 }
 
 .ta-r {
-  text-align: right;
+  text-align: right !important;
 }
 
 .lh-1 {
-  line-height: 1;
-}
-
-.va-m {
-  vertical-align: middle;
-}
-
-.va-bl {
-  vertical-align: baseline;
-}
-
-.va-t {
-  vertical-align: top;
-}
-
-.va-b {
-  vertical-align: bottom;
+  line-height: 1 !important;
 }
 /*---------------------------------------------------文本 end -----------------------------------------------------*/
 /*---------------------------------------------------flex 容器 start -----------------------------------------------------*/
 .d-if {
-  display: inline-flex;
+  display: inline-flex !important;
 }
 
 .d-f {
-  display: flex;
+  display: flex !important;
 }
 
 .jc-fs {
-  justify-content: flex-start;
+  justify-content: flex-start !important;
 }
 
 .jc-fe {
-  justify-content: flex-end;
+  justify-content: flex-end !important;
 }
 
 .jc-c {
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .jc-sa {
-  justify-content: space-around;
+  justify-content: space-around !important;
 }
 
 .jc-sb {
-  justify-content: space-between;
+  justify-content: space-between !important;
 }
 
 .ai-s {
-  align-items: stretch;
+  align-items: stretch !important;
 }
 
 .ai-fs {
-  align-items: flex-start;
+  align-items: flex-start !important;
 }
 
 .ai-fe {
-  align-items: flex-end;
+  align-items: flex-end !important;
 }
 
 .ai-c {
-  align-items: center;
+  align-items: center !important;
 }
 
 .fxw-w {
-  flex-wrap: wrap;
+  flex-wrap: wrap !important;
 }
 
 .fxd-c {
-  flex-direction: column;
+  flex-direction: column !important;
 }
 
 .fxd-r {
-  flex-direction: row;
+  flex-direction: row !important;
 }
 /*---------------------------------------------------flex 容器 end -----------------------------------------------------*/
 /*---------------------------------------------------flex item start ---------------------------------------------------*/
 .fxb-a {
-  flex-basis: auto;
+  flex-basis: auto !important;
 }
 
 .fxb-100 {
-  flex-basis: 100%;
+  flex-basis: 100% !important;
 }
 
 .fxb-50 {
-  flex-basis: 50%;
+  flex-basis: 50% !important;
 }
 
 .fxb-33 {
-  flex-basis: 33%;
-}
-
-.fxb-25 {
-  flex-basis: 25%;
-}
-
-.fxb-20 {
-  flex-basis: 20%;
+  flex-basis: 33% !important;
 }
 
 .fxg-0 {
-  flex-grow: 0;
+  flex-grow: 0 !important;
 }
 
 .fxg-1 {
-  flex-grow: 1;
+  flex-grow: 1 !important;
 }
 
 .fxsh-0 {
-  flex-shrink: 0;
+  flex-shrink: 0 !important;
 }
 
 .fxsh-1 {
-  flex-shrink: 1;
+  flex-shrink: 1 !important;
 }
 /*---------------------------------------------------flex item end ---------------------------------------------------*/
+.animdelLoop(@counter) when (@counter < = 5000) {
+  .animdel-@{counter} {
+    animation-delay: unit(@counter, ms) !important;
+  }
+  .animdelLoop(( @counter + 100));
+}
+.animdelLoop(0);
+
+.animdurLoop(@counter) when (@counter < = 5000) {
+  .animdur-@{counter} {
+    animation-duration: unit(@counter, ms) !important;
+  }
+  .animdurLoop(( @counter + 100));
+}
+.animdurLoop(0);
+
+.animic-i {
+  animation-iteration-count: infinite !important;
+}

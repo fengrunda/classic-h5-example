@@ -1,10 +1,10 @@
 import Vue from 'vue'
-import Loading from '../src/components/Loading.vue'
-import { Progress } from 'muse-ui'
-Vue.use(Progress)
+import LoadingComponent from '../src/components/Loading.vue'
+import { Loading } from 'vant'
+Vue.use(Loading)
 export default new Vue({
   components: {
-    Loading
+    Loading: LoadingComponent
   },
   template: '<Loading />'
 })

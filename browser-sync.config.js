@@ -38,6 +38,7 @@ const config = require('./vue.config')
 /**
  * Run Browsersync with server config
  */
+const publicPath = process.argv[2] === 'test' ? './' : './'
 const option = {
   'ui': {
     'port': 3001,
@@ -56,8 +57,9 @@ const option = {
     baseDir: path.resolve(__dirname, './dist/'),
     middleware: [
       function (req, res, next) {
-        if (config.baseUrl !== '/') {
-          req.url = req.url.replace(config.baseUrl, '/')
+        if (publicPath !== '/') {
+          console.log(publicPath, req.url)
+          req.url = req.url.replace(publicPath, '/')
         }
         next()
       }

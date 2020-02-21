@@ -2,7 +2,7 @@ import { xhrService } from './network'
 const api = {
   user: {
     getUserInfo: { // 获取用户信息
-      url: '/api/community/getMyUserInfoForActivity',
+      url: '/api/community/user/getMyUserInfo',
       method: 'POST'
     }
   },

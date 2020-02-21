@@ -28,7 +28,7 @@ html {
 body {
   -webkit-touch-callout: none;
   -webkit-overflow-scrolling: touch;
-  font: 14px "PingFang SC",miui,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,sans-serif;
+  font: 14px *2 "PingFang SC",miui,system-ui,-apple-system,BlinkMacSystemFont,Helvetica Neue,Helvetica,sans-serif;
   color: rgba(0, 0, 0, 0.8);
   display: flex;
   justify-content: center;
@@ -48,7 +48,7 @@ textarea {
   background-color: transparent;
   border: none;
   -webkit-appearance: none;
-  font-size: 14px;
+  font-size: 14px *2;
   // -webkit-user-select: none;
   // -moz-user-focus: none;
   // -moz-user-select: none;
@@ -70,11 +70,10 @@ button {
   align-items: stretch;
   flex: 1 0 auto;
   position: relative;
-  // max-width: 375px;
+  // max-width: 375px *2;
   width: 100%;
-  min-height: 352px;
-  font-size: 14px;
-  overflow: hidden;
+  min-height: 352px *2;
+  font-size: 14px *2;
 }
 
 .fade-enter-active,
@@ -87,25 +86,3 @@ button {
   opacity: 0;
 }
 
-.mu-snackbar {
-  min-width: 375px;
-  flex-wrap: nowrap;
-
-  .mu-snackbar-message {
-    flex: 1 1 auto;
-    word-break: break-all;
-  }
-
-  .mu-snackbar-action {
-    flex: 0 0 auto;
-  }
-}
-// .mu-loading-wrap {
-//   .mu-circular-progress,.mu-circle-wrapper {
-//     width: 48px !important;
-//     height: 48px !important;
-//   }
-//   .mu-circle {
-//     border-width: 3px !important;
-//   }
-// }

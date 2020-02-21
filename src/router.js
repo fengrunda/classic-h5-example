@@ -27,11 +27,6 @@ export default new Router({
       component: () => import(/* webpackChunkName: "three" */ './views/Three.vue')
     },
     {
-      path: '/activityPage',
-      name: 'activityPage',
-      component: () => import(/* webpackChunkName: "three" */ './views/ActivityPage.vue')
-    },
-    {
       path: '/loading',
       name: 'loading',
       component: () => import(/* webpackChunkName: "loading" */ './components/Loading.vue')

@@ -2,22 +2,21 @@ const path = require('path')
 // const webpack = require('webpack')
 const LessPluginFunctions = require('less-plugin-functions')
 const CompressionWebpackPlugin = require('compression-webpack-plugin')
+const { BundleStatsWebpackPlugin } = require('bundle-stats')
 module.exports = {
   lintOnSave: false,
   publicPath: './',
-  // 根据不同环境配置不同的baseUrl
-  // baseUrl: process.env.VUE_APP_BUILD_TYPE === 'development' ? '/' : (process.env.VUE_APP_BUILD_TYPE === 'test' ? '/zizai/universal-login/' : '/universal-login/'),
+  // publicPath: process.env.VUE_APP_BUILD_TYPE === 'production' ? './' : '/zizai/multiple-h5/',
   productionSourceMap: process.env.VUE_APP_BUILD_TYPE !== 'production', // 生产环境关闭productionSourceMap
   devServer: {
     disableHostCheck: true, // 开了才能用改host方式访问
     proxy: {
       '/api': {
-        target: 'http://t.api.zizai.rfmember.net/',
-        // ws: true,
+        target: 'https://weixin.test.rfmember.net',
         changeOrigin: true
       }
       // '/store/api': {
-      //   target: 'http://t.api.zizai.rfmember.net/api',
+      //   target: 'https://weixin.test.rfmember.net',
       //   ws: true,
       //   changeOrigin: true,
       //   pathRewrite: {
@@ -43,6 +42,12 @@ module.exports = {
       // momentjs 删除多余的本地化文件
       // config.plugins.push(new webpack.ContextReplacementPlugin(/moment[/\\]locale$/, /zh-cn/))
     }
+    config.plugins.push(
+      new BundleStatsWebpackPlugin({
+        // html: false,
+        json: true
+      })
+    )
   },
   css: {
     loaderOptions: {
@@ -52,7 +57,17 @@ module.exports = {
         // 所以这里假设你有 `src/variables.scss` 这个文件
         plugins: [
           new LessPluginFunctions()
-        ]
+        ],
+        modifyVars: {
+          // 直接覆盖变量
+          // 'text-color': 'red',
+          // 'loading-spinner-size': '60px',
+          // 'loading-spinner-color': 'red',
+          // 'border-color': '#eee'
+          // 或者可以通过 less 文件覆盖（文件路径为绝对路径）
+          // hack: `true; @import "${path.resolve(__dirname, 'src/assets/less/vant-var.less')}"`
+          hack: `true; @import "~@/assets/less/vant-var.less"`
+        }
       }
     }
   },

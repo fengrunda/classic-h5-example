@@ -1,13 +1,10 @@
 <template>
   <div class="loading">
-    <mu-circular-progress :size="50"/>
-    <!-- <hello-world></hello-world> -->
-    <!-- <div class="text">100%</div> -->
+    <van-loading size="50" color="#41a3ff"/>
   </div>
 </template>
 
 <script>
-// import helloWorld from './HelloWorld'
 export default {
   name: 'loading',
   data () {
@@ -37,18 +34,11 @@ export default {
   /deep/ * {
     box-sizing: border-box;
   }
-  /deep/ .mu-circular-progress {
+  /deep/ .van-loading {
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-  }
-  .text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    margin-top: 40px;
   }
 }
 </style>

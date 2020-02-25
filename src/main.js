@@ -111,6 +111,7 @@ router.beforeEach(async (to, from, next) => {
           }
         }
       } catch (error) {
+        platForm = 'H5'
         // Toast(errorFormatter(error, 'initWx'))
         // debugger;
       }

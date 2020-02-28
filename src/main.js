@@ -41,7 +41,7 @@ router.beforeEach(async (to, from, next) => {
     try {
       const { data: { assets = [] } = {} } = await xhrService({ url: './bundle-stats.json', method: 'GET', baseURL: './' })
       const filterList = assets
-        .filter(({ key = '' } = {}) => (getSuffix(key) === '.png' || getSuffix(key) === '.jpg' || getSuffix(key) === '.jepg'))
+        .filter(({ key = '' } = {}) => (getSuffix(key) === '.png' || getSuffix(key) === '.jpg' || getSuffix(key) === '.jpeg'))
         .map(({ runs = [] } = {}) => {
           const assetsObj = runs.length > 0 ? runs[0] : {}
           const { name: url = '', value: size = 0 } = assetsObj

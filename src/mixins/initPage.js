@@ -25,23 +25,20 @@ const mixin = {
      * 登录
      * @param {*} redirect
      */
-    login (redirect = window.location.href) {
-      return new Promise(async (resolve) => {
-        if (this.platform === 'MINIPROGRAM') {
-          // $wx.miniProgram.redirectTo({ url: `/pages/login?webViewRedirectUrl=${encodeURIComponent(redirect)}&webviewLogin=1&fromH5=1` }) // 生活小程序
-          $wx.miniProgram.redirectTo({ url: `/subPackages/login/login?webViewRedirectUrl=${encodeURIComponent(redirect)}&webviewLogin=1` })
-        } else if (this.platform === 'APP') {
-          try {
-            const { accessToken = '' } = await loginInApp() || {}
-            this.$store.commit('UPDATE_ACCESS_TOKEN', accessToken)
-            resolve({ accessToken })
-          } catch (error) {
-            // this.$toast(this.$errorFormatter(error, 'loginInApp'))
-          }
-        } else {
-          window.location.href = `${CROSS_URL}?redirect_url=${encodeURIComponent(redirect)}${this.connectTokenFail ? '&type=params' : ''}`
+    async login (redirect = window.location.href) {
+      if (this.platform === 'MINIPROGRAM') {
+        // $wx.miniProgram.redirectTo({ url: `/pages/login?webViewRedirectUrl=${encodeURIComponent(redirect)}&webviewLogin=1&fromH5=1` }) // 生活小程序
+        $wx.miniProgram.redirectTo({ url: `/subPackages/login/login?webViewRedirectUrl=${encodeURIComponent(redirect)}&webviewLogin=1` }) // 享家小程序
+      } else if (this.platform === 'APP') {
+        try {
+          const { accessToken = '' } = await loginInApp() || {}
+          this.$store.commit('UPDATE_ACCESS_TOKEN', accessToken)
+          return Promise.resolve({ accessToken })
+        } catch (error) {
         }
-      })
+      } else {
+        window.location.href = `${CROSS_URL}?redirect_url=${encodeURIComponent(redirect)}${this.connectTokenFail ? '&type=params' : ''}`
+      }
     },
     /**
      * 检查接口登录态

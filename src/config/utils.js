@@ -171,6 +171,77 @@ const getSuffix = (url) => {
   var suffix = url.substring(index1, index2)
   return suffix
 }
+class UrlClass {
+  constructor (url) {
+    // const url = 'http://www.baidu.com/path1/path2?search1=1&search2=2#/hash1/hash2?query1=a&query2=b'
+    const names = ['url', 'scheme', 'slash', 'host', 'port', 'path', 'search', 'hash']
+    const regexUrl = /^(?:([A-Za-z]+):)?(\/{0,3})([0-9.\-A-Za-z]+)(?::(\d+))?(?:\/([^?#]*))?(?:\?([^#]*))?(?:#(.*))?$/
+    this.result = regexUrl.exec(url).map((value, index) => {
+      let missingStr = ''
+      let valueStr = ''
+      if (typeof (value) !== 'undefined') {
+        switch (names[index]) {
+          case 'hash': missingStr = '#'; break
+          case 'port': missingStr = ':'; break
+          case 'path': missingStr = '/'; break
+          case 'search': missingStr = '?'; break
+          case 'slash': missingStr = ':'; break
+        }
+        valueStr = missingStr + value
+      }
+      return valueStr
+    }) || new Array(8)
+  }
+  get href () {
+    return this.result.filter((value, index) => index > 0).join('')
+  }
+  get scheme () {
+    return this.result[1]
+  }
+  set scheme (value) {
+    this.result[1] = value
+  }
+  get slash () {
+    return this.result[2]
+  }
+  set slash (value) {
+    this.result[2] = value
+  }
+  get host () {
+    return this.result[3]
+  }
+  set host (value) {
+    this.result[3] = value
+  }
+  get port () {
+    return this.result[4]
+  }
+  set port (value) {
+    this.result[4] = value
+  }
+  get path () {
+    return this.result[5]
+  }
+  set path (value) {
+    this.result[5] = value
+  }
+  get search () {
+    return this.result[6]
+  }
+  set search (value) {
+    this.result[6] = value
+  }
+  get hash () {
+    return this.result[7]
+  }
+  set hash (value) {
+    this.result[7] = value
+  }
+}
+const checkWhiteListOrigin = (url) => {
+  const { host } = new UrlClass(url)
+  return (/thinkinpower.net$|rfmember.net$|thinkinpower.com$/).test(host)
+}
 
 export {
   errorFormatter,
@@ -182,5 +253,7 @@ export {
   connectCrossStorage,
   getSuffix,
   BROWSER_VERSION,
-  getUrlParams
+  getUrlParams,
+  UrlClass,
+  checkWhiteListOrigin
 }

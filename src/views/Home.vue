@@ -5,6 +5,8 @@
     <div class="logo3"></div>
     <div class="logo4"></div>
     <button @click="handleStart">startBgm</button>
+    <button @click="handleSendPostMessage">handleSendPostMessage</button>
+    <iframe frameborder="0" id="iframe1" src="http://127.0.0.1:3000/zizai_app_user_privacy_policy.html"></iframe>
   </div>
 </template>
 
@@ -74,6 +76,10 @@ export default {
       } else {
         this.$toast('请使用浏览器的分享功能')
       }
+    },
+    handleSendPostMessage (e) {
+      const domain1Iframe = document.getElementById('iframe1')
+      domain1Iframe.contentWindow.postMessage({ key: 'item1' }, 'http://127.0.0.1:3000/zizai_app_user_privacy_policy.html')
     }
   },
   async created () {
@@ -96,6 +102,12 @@ export default {
     }
   },
   mounted () {
+    window.addEventListener('message', function (event) {
+      console.log('home', event)
+      if (event.origin === 'http://127.0.0.1:3000/zizai_app_user_privacy_policy.html') {
+        console.log(event.data)
+      }
+    }, false)
   },
   components: {
   }

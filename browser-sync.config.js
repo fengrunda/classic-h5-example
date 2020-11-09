@@ -78,7 +78,7 @@ const option = {
 }
 const initProxy = () => {
   let proxyArr = []
-  const baseUrl = '/zizai' // 服务器上的二级目录名称
+  const baseUrl = '/' // 服务器上的二级目录名称
   for (let key of Object.keys(config.devServer.proxy)) {
     let proxyContext = baseUrl + key
     let proxyConfig = {

@@ -2,19 +2,19 @@ import { xhrService } from './network'
 const api = {
   user: {
     getUserInfo: { // 获取用户信息
-      url: '/api/community/user/getMyUserInfo',
+      url: '/getMyUserInfo',
       method: 'POST'
     }
   },
   base: {
     getWeChatInfo: { // 获取微信配置
-      url: '/api/community/weixin/getWXJsConfig',
+      url: '/getWXJsConfig',
       method: 'POST'
     }
   },
   activity: {
     getActivityInfo: { // 获取活动信息
-      url: '/api/community/getActivityInfo',
+      url: '/getActivityInfo',
       method: 'POST'
     }
   }

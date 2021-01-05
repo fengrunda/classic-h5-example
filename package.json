@@ -13,7 +13,7 @@
   },
   "dependencies": {
     "animate.css": "^3.7.2",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "dayjs": "^1.8.20",
     "js-cookie": "^2.2.1",
     "tua-body-scroll-lock": "^1.0.0",
